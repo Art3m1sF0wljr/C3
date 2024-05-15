@@ -473,7 +473,7 @@ blocks:
     ant7: ''
     ant8: ''
     ant9: ''
-    args: '""'
+    args: '"bladerf=0,nchan=1,biastee=1"'
     bb_gain0: '20'
     bb_gain1: '20'
     bb_gain10: '20'
@@ -579,7 +579,7 @@ blocks:
     corr7: '0'
     corr8: '0'
     corr9: '0'
-    freq0: 415.4e6+freq_slide
+    freq0: 144.4e6+freq_slide
     freq1: 100e6
     freq10: 100e6
     freq11: 100e6
