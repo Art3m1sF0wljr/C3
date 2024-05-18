@@ -1062,7 +1062,7 @@ blocks:
     bus_structure: null
     coordinate: [1232, 508.0]
     rotation: 0
-    state: disabled
+    state: enabled
 - name: osmosdr_source_1
   id: osmosdr_source
   parameters:
@@ -1419,7 +1419,7 @@ blocks:
     bus_structure: null
     coordinate: [72, 812.0]
     rotation: 0
-    state: disabled
+    state: enabled
 - name: pdu_pdu_to_tagged_stream_0
   id: pdu_pdu_to_tagged_stream
   parameters:
@@ -2261,7 +2261,7 @@ blocks:
     bus_structure: null
     coordinate: [336, 1004.0]
     rotation: 0
-    state: disabled
+    state: enabled
 - name: virtual_sink_0
   id: virtual_sink
   parameters:
@@ -2360,7 +2360,7 @@ blocks:
     bus_structure: null
     coordinate: [1032, 540.0]
     rotation: 0
-    state: enabled
+    state: disabled
 - name: zeromq_sub_source_0
   id: zeromq_sub_source
   parameters:
@@ -2382,7 +2382,7 @@ blocks:
     bus_structure: null
     coordinate: [144, 932.0]
     rotation: 0
-    state: enabled
+    state: disabled
 
 connections:
 - [blocks_file_source_0, '0', blocks_throttle_0_1, '0']
