@@ -2,7 +2,7 @@ python3 bmp_gen_file.py
 
 the input file is test_13_LRPT.txt
 
-it generates a bitmap from random input
+it generates a bitmap from random input. the input is garbage, use it with te output of test_13_QPSK_my_LRPT.grc
 
 write python code that given input a file containing garbage hex values, read them as bytes and take groups of three. handle the case where there is no valid hex written (ignore it)
 given a group , interpret it as a triplet of RGB color channels, for a pixel , valued from 0 to 255
