@@ -4,7 +4,16 @@ from PIL import Image
 
 def hex_to_rgb(hex_str):
     """Convert hex string to RGB tuple."""
-    return tuple(int(hex_str[i:i+2], 16) for i in (0, 2, 4))
+    rgb_values = []
+    for i in (0, 2, 4):
+        try:
+            rgb_values.append(int(hex_str[i:i+2], 16))
+        except ValueError:
+            pass  # Ignore invalid hex values
+    if len(rgb_values) == 3:
+        return tuple(rgb_values)
+    else:
+        return None
 
 def create_bitmap(hex_file_path):
     try:
@@ -14,8 +23,8 @@ def create_bitmap(hex_file_path):
         # Group hex data into triplets
         triplets = [hex_data[i:i+6] for i in range(0, len(hex_data), 6)]
 
-        # Convert triplets to RGB tuples
-        pixels = [hex_to_rgb(binascii.hexlify(triplet).decode()) for triplet in triplets]
+        # Convert triplets to RGB tuples, ignoring invalid hex values
+        pixels = [hex_to_rgb(binascii.hexlify(triplet).decode()) for triplet in triplets if hex_to_rgb(binascii.hexlify(triplet).decode()) is not None]
 
         # Determine dimensions of the bitmap
         num_pixels = len(pixels)
