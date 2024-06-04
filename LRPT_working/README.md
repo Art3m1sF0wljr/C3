@@ -6,5 +6,5 @@ python3 decode.py #generates reconstructed_leena.png
 dump.temp is the rx hexdump
 dump0.temp is tx hexdump
 
-issues with the header of the transmitted data
+issues with the header of the transmitted data<\br>
 edit:fixed issues, now is works as intending XD
