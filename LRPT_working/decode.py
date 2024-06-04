@@ -1,73 +1,80 @@
 import numpy as np
-from scipy.fftpack import ifft2
-import struct
 import cv2
+import struct
 
-def decode_image(input_binary_path, output_image_path, flag_length=250, access_code_interval=1024):
+def decode_image(input_binary_path, output_image_path):
     with open(input_binary_path, 'rb') as f:
         # Read the file content
         data = f.read()
+    
+    access_code = struct.pack('H', 0xAAAA)
+    coordinate_flag = struct.pack('H', 0xBBBB)
+    
+    # Initialize arrays for Magenta, Yellow, Cyan channels
+    magenta = np.zeros((512, 512), dtype=np.uint8)
+    yellow = np.zeros((512, 512), dtype=np.uint8)
+    cyan = np.zeros((512, 512), dtype=np.uint8)
+    
+    # Initialize index for reading data
+    i = 0
+    data_length = len(data)
+    
+    while i < data_length:
+        # Look for access code
+        ac_index = data.find(access_code, i)
+        if ac_index == -1:
+            break  # No more access codes found
         
-        # Find the start flag (250 zero bytes)
-        zero_flag = b'\x00' * flag_length
-        start_index = data.find(zero_flag)
-        if start_index == -1:
-            raise ValueError("Start flag not found!")
-        
-        # Skip to the end of the zero flag
-        while start_index < len(data) and data[start_index] == 0:
-            start_index += 1
-        
-        # Find the end flag (1024 0xFF bytes)
-        end_flag = b'\xFF' * 1024
-        end_index = data.find(end_flag, start_index)
-        if end_index == -1:
-            raise ValueError("End flag not found!")
-        
-        # The actual data is between the flags
-        data = data[start_index:end_index]
-        
-        # Initialize arrays for magnitude and phase
-        num_elements = 512 * 512
-        magnitude_flat = np.zeros(num_elements, dtype=np.uint16)
-        phase_flat = np.zeros(num_elements, dtype=np.uint16)
-        
-        # Read magnitude and phase data with access code
-        access_code = struct.pack('H', 0xAAAA)
-        i = 0
-        j = 0
-        while i < len(data) and j < num_elements:
-            if data[i:i+2] == access_code:
-                i += 2  # skip access code
-                continue
+        # Read pixel values before the access code
+        if ac_index >= 3:
             try:
-                mag, phs = struct.unpack('HH', data[i:i+4])
-            except struct.error:
-                break  # if not enough bytes to unpack, stop
-            magnitude_flat[j] = mag
-            phase_flat[j] = phs
-            i += 4
-            j += 1
+                mag, yel, cya = struct.unpack('BBB', data[ac_index-3:ac_index])
+                # Validate color values
+                if not (0 <= mag <= 255 and 0 <= yel <= 255 and 0 <= cya <= 255):
+                    raise ValueError("Color value out of range")
+            except (struct.error, ValueError):
+                i = ac_index + len(access_code)
+                continue
         
-        # Reshape the arrays
-        magnitude = magnitude_flat.reshape((512, 512))
-        phase = phase_flat.reshape((512, 512))
+        # Move index to after the access code
+        i = ac_index + len(access_code)
         
-        # Dequantize the data
-        dequantized_magnitude = magnitude.astype(np.float32)
-        dequantized_phase = (phase.astype(np.float32) / 65535) * (2 * np.pi) - np.pi
+        # Look for coordinate flag
+        cf_index = data.find(coordinate_flag, i)
+        if cf_index == -1:
+            break  # No more coordinate flags found
         
-        # Combine magnitude and phase to complex form
-        f_transform = dequantized_magnitude * np.exp(1j * dequantized_phase)
+        # Read coordinates before the coordinate flag
+        if cf_index >= 4:
+            try:
+                row, col = struct.unpack('HH', data[cf_index-4:cf_index])
+                # Validate coordinates
+                if not (0 <= row < 512 and 0 <= col < 512):
+                    raise ValueError("Coordinate out of range")
+            except (struct.error, ValueError):
+                i = cf_index + len(coordinate_flag)
+                continue
         
-        # Perform inverse FFT
-        reconstructed_image = np.abs(ifft2(f_transform))
+        # Assign values to the channels only if coordinates and pixel values are valid
+        try:
+            magenta[row, col] = mag
+            yellow[row, col] = yel
+            cyan[row, col] = cya
+        except (NameError, ValueError):
+            # Skip assignment if pixel values are invalid
+            pass
         
-        # Normalize image to 8-bit range
-        reconstructed_image = np.uint8(255 * (reconstructed_image / np.max(reconstructed_image)))
-        
-        # Save the reconstructed image
-        cv2.imwrite(output_image_path, reconstructed_image)
+        # Move index to after the coordinate flag
+        i = cf_index + len(coordinate_flag)
+    
+    # Convert back to BGR
+    red = 255 - cyan
+    green = 255 - magenta
+    blue = 255 - yellow
+    reconstructed_image = cv2.merge([blue, green, red])
+    
+    # Save the reconstructed image
+    cv2.imwrite(output_image_path, reconstructed_image)
 
 # Usage
 decode_image('rx_data.bin', 'reconstructed_image.jpg')

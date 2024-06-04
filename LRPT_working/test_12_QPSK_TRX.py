@@ -37,10 +37,9 @@ from argparse import ArgumentParser
 from gnuradio.eng_arg import eng_float, intx
 from gnuradio import eng_notation
 from gnuradio import gr, pdu
+from gnuradio import zeromq
 from gnuradio.qtgui import Range, RangeWidget
 from PyQt5 import QtCore
-import osmosdr
-import time
 
 
 
@@ -108,15 +107,8 @@ class test_12_QPSK_TRX(gr.top_block, Qt.QWidget):
         ##################################################
         # Blocks
         ##################################################
-        self._freq_slide_range = Range(0, 1e6, 1e3, 0, 200)
-        self._freq_slide_win = RangeWidget(self._freq_slide_range, self.set_freq_slide, "'freq_slide'", "counter_slider", float, QtCore.Qt.Horizontal)
-        self.top_layout.addWidget(self._freq_slide_win)
-        self._TX_rf_gain_range = Range(0, 50, 1, 30, 200)
-        self._TX_rf_gain_win = RangeWidget(self._TX_rf_gain_range, self.set_TX_rf_gain, "'TX_rf_gain'", "counter_slider", float, QtCore.Qt.Horizontal)
-        self.top_layout.addWidget(self._TX_rf_gain_win)
-        self._RX_rf_gain_range = Range(0, 50, 1, 30, 200)
-        self._RX_rf_gain_win = RangeWidget(self._RX_rf_gain_range, self.set_RX_rf_gain, "'RX_rf_gain'", "counter_slider", float, QtCore.Qt.Horizontal)
-        self.top_layout.addWidget(self._RX_rf_gain_win)
+        self.zeromq_sub_source_0 = zeromq.sub_source(gr.sizeof_gr_complex, 1, 'tcp://127.0.0.1:49203', 100, False, -1, '')
+        self.zeromq_pub_sink_0 = zeromq.pub_sink(gr.sizeof_gr_complex, 1, 'tcp://127.0.0.1:49203', 100, False, -1, '')
         self.qtgui_waterfall_sink_x_0 = qtgui.waterfall_sink_c(
             1024, #size
             window.WIN_BLACKMAN_hARRIS, #wintype
@@ -470,35 +462,11 @@ class test_12_QPSK_TRX(gr.top_block, Qt.QWidget):
         self.top_layout.addWidget(self._qtgui_const_sink_x_0_win)
         self.pdu_tagged_stream_to_pdu_0 = pdu.tagged_stream_to_pdu(gr.types.byte_t, 'packet_len')
         self.pdu_pdu_to_tagged_stream_1 = pdu.pdu_to_tagged_stream(gr.types.byte_t, 'packet_len')
-        self.osmosdr_source_1 = osmosdr.source(
-            args="numchan=" + str(1) + " " + "bladerf=0,nchan=1,buffers=48,transfers=24,agc_mode=manual"
-        )
-        self.osmosdr_source_1.set_time_unknown_pps(osmosdr.time_spec_t())
-        self.osmosdr_source_1.set_sample_rate(samp_rate_0)
-        self.osmosdr_source_1.set_center_freq(143.4e6+freq_slide, 0)
-        self.osmosdr_source_1.set_freq_corr(0, 0)
-        self.osmosdr_source_1.set_dc_offset_mode(0, 0)
-        self.osmosdr_source_1.set_iq_balance_mode(0, 0)
-        self.osmosdr_source_1.set_gain_mode(False, 0)
-        self.osmosdr_source_1.set_gain(RX_rf_gain, 0)
-        self.osmosdr_source_1.set_if_gain(20, 0)
-        self.osmosdr_source_1.set_bb_gain(20, 0)
-        self.osmosdr_source_1.set_antenna('', 0)
-        self.osmosdr_source_1.set_bandwidth(0, 0)
-        self.osmosdr_sink_0 = osmosdr.sink(
-            args="numchan=" + str(1) + " " + ""
-        )
-        self.osmosdr_sink_0.set_time_unknown_pps(osmosdr.time_spec_t())
-        self.osmosdr_sink_0.set_sample_rate(samp_rate_0)
-        self.osmosdr_sink_0.set_center_freq(143.4e6+freq_slide, 0)
-        self.osmosdr_sink_0.set_freq_corr(0, 0)
-        self.osmosdr_sink_0.set_gain(TX_rf_gain, 0)
-        self.osmosdr_sink_0.set_if_gain(20, 0)
-        self.osmosdr_sink_0.set_bb_gain(20, 0)
-        self.osmosdr_sink_0.set_antenna('', 0)
-        self.osmosdr_sink_0.set_bandwidth(0, 0)
         self.mmse_resampler_xx_0_0 = filter.mmse_resampler_cc(0, ((usrp_rate/samp_rate)*rs_ratio))
         self.mmse_resampler_xx_0 = filter.mmse_resampler_cc(0, 1.0/((usrp_rate/samp_rate)*rs_ratio))
+        self._freq_slide_range = Range(0, 1e6, 1e3, 0, 200)
+        self._freq_slide_win = RangeWidget(self._freq_slide_range, self.set_freq_slide, "'freq_slide'", "counter_slider", float, QtCore.Qt.Horizontal)
+        self.top_layout.addWidget(self._freq_slide_win)
         self.digital_symbol_sync_xx_0_0 = digital.symbol_sync_cc(
             digital.TED_MUELLER_AND_MULLER,
             sps,
@@ -535,10 +503,16 @@ class test_12_QPSK_TRX(gr.top_block, Qt.QWidget):
         self.blocks_stream_to_tagged_stream_0 = blocks.stream_to_tagged_stream(gr.sizeof_char, 1, 1024, "packet_len")
         self.blocks_pack_k_bits_bb_0 = blocks.pack_k_bits_bb(8)
         self.blocks_multiply_const_vxx_0 = blocks.multiply_const_cc(0.5)
-        self.blocks_file_source_0 = blocks.file_source(gr.sizeof_char*1, '/home/ccc_gs/Scaricati/c3/qpsk/tx_data.bin', True, 0, 0)
+        self.blocks_file_source_0 = blocks.file_source(gr.sizeof_char*1, '/home/ccc_gs/Scaricati/c3/qpsk/tx_data.bin', False, 0, 0)
         self.blocks_file_source_0.set_begin_tag(pmt.PMT_NIL)
         self.blocks_file_sink_0 = blocks.file_sink(gr.sizeof_char*1, '/home/ccc_gs/Scaricati/c3/qpsk/rx_data.bin', False)
         self.blocks_file_sink_0.set_unbuffered(False)
+        self._TX_rf_gain_range = Range(0, 50, 1, 30, 200)
+        self._TX_rf_gain_win = RangeWidget(self._TX_rf_gain_range, self.set_TX_rf_gain, "'TX_rf_gain'", "counter_slider", float, QtCore.Qt.Horizontal)
+        self.top_layout.addWidget(self._TX_rf_gain_win)
+        self._RX_rf_gain_range = Range(0, 50, 1, 30, 200)
+        self._RX_rf_gain_win = RangeWidget(self._RX_rf_gain_range, self.set_RX_rf_gain, "'RX_rf_gain'", "counter_slider", float, QtCore.Qt.Horizontal)
+        self.top_layout.addWidget(self._RX_rf_gain_win)
 
 
         ##################################################
@@ -567,15 +541,15 @@ class test_12_QPSK_TRX(gr.top_block, Qt.QWidget):
         self.connect((self.digital_protocol_formatter_bb_0, 0), (self.blocks_tagged_stream_mux_0, 0))
         self.connect((self.digital_symbol_sync_xx_0_0, 0), (self.digital_linear_equalizer_0, 0))
         self.connect((self.digital_symbol_sync_xx_0_0, 0), (self.qtgui_const_sink_x_0_0_0_0, 0))
-        self.connect((self.mmse_resampler_xx_0, 0), (self.osmosdr_sink_0, 0))
         self.connect((self.mmse_resampler_xx_0, 0), (self.qtgui_const_sink_x_0_0, 0))
         self.connect((self.mmse_resampler_xx_0, 0), (self.qtgui_freq_sink_x_0, 0))
+        self.connect((self.mmse_resampler_xx_0, 0), (self.zeromq_pub_sink_0, 0))
         self.connect((self.mmse_resampler_xx_0_0, 0), (self.digital_symbol_sync_xx_0_0, 0))
         self.connect((self.mmse_resampler_xx_0_0, 0), (self.qtgui_const_sink_x_0_0_0, 0))
-        self.connect((self.osmosdr_source_1, 0), (self.mmse_resampler_xx_0_0, 0))
-        self.connect((self.osmosdr_source_1, 0), (self.qtgui_sink_x_0, 0))
-        self.connect((self.osmosdr_source_1, 0), (self.qtgui_waterfall_sink_x_0, 0))
         self.connect((self.pdu_pdu_to_tagged_stream_1, 0), (self.blocks_file_sink_0, 0))
+        self.connect((self.zeromq_sub_source_0, 0), (self.mmse_resampler_xx_0_0, 0))
+        self.connect((self.zeromq_sub_source_0, 0), (self.qtgui_sink_x_0, 0))
+        self.connect((self.zeromq_sub_source_0, 0), (self.qtgui_waterfall_sink_x_0, 0))
 
 
     def closeEvent(self, event):
@@ -657,8 +631,6 @@ class test_12_QPSK_TRX(gr.top_block, Qt.QWidget):
 
     def set_samp_rate_0(self, samp_rate_0):
         self.samp_rate_0 = samp_rate_0
-        self.osmosdr_sink_0.set_sample_rate(self.samp_rate_0)
-        self.osmosdr_source_1.set_sample_rate(self.samp_rate_0)
 
     def get_samp_rate(self):
         return self.samp_rate
@@ -710,8 +682,6 @@ class test_12_QPSK_TRX(gr.top_block, Qt.QWidget):
 
     def set_freq_slide(self, freq_slide):
         self.freq_slide = freq_slide
-        self.osmosdr_sink_0.set_center_freq(143.4e6+self.freq_slide, 0)
-        self.osmosdr_source_1.set_center_freq(143.4e6+self.freq_slide, 0)
 
     def get_excess_bw(self):
         return self.excess_bw
@@ -724,14 +694,12 @@ class test_12_QPSK_TRX(gr.top_block, Qt.QWidget):
 
     def set_TX_rf_gain(self, TX_rf_gain):
         self.TX_rf_gain = TX_rf_gain
-        self.osmosdr_sink_0.set_gain(self.TX_rf_gain, 0)
 
     def get_RX_rf_gain(self):
         return self.RX_rf_gain
 
     def set_RX_rf_gain(self, RX_rf_gain):
         self.RX_rf_gain = RX_rf_gain
-        self.osmosdr_source_1.set_gain(self.RX_rf_gain, 0)
 
 
 
