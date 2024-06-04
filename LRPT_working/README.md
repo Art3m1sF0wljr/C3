@@ -7,3 +7,4 @@ dump.temp is the rx hexdump
 dump0.temp is tx hexdump
 
 issues with the header of the transmitted data
+edit:fixed issues, now is works as intending XD
