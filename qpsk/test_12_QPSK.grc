@@ -352,7 +352,7 @@ blocks:
     alias: ''
     append: 'True'
     comment: ''
-    file: /home/art3m1sf0wl/program/TRX_test/test_12_QPSK_output.txt
+    file: /home/art3m1sf0wl/program/TRX_test/c3/qpsk/test_12_QPSK_output.txt
     type: byte
     unbuffered: 'False'
     vlen: '1'
@@ -886,7 +886,7 @@ blocks:
     ant7: ''
     ant8: ''
     ant9: ''
-    args: '""'
+    args: '"bladerf=0,nchan=1,biastee=1"'
     bb_gain0: '20'
     bb_gain1: '20'
     bb_gain10: '20'
@@ -1109,7 +1109,7 @@ blocks:
     bus_structure: null
     coordinate: [1088, 684.0]
     rotation: 0
-    state: disabled
+    state: enabled
 - name: osmosdr_source_1
   id: osmosdr_source
   parameters:
@@ -1466,7 +1466,7 @@ blocks:
     bus_structure: null
     coordinate: [40, 780.0]
     rotation: 0
-    state: disabled
+    state: enabled
 - name: pdu_pdu_to_tagged_stream_0
   id: pdu_pdu_to_tagged_stream
   parameters:
@@ -2407,7 +2407,7 @@ blocks:
     bus_structure: null
     coordinate: [1088, 564.0]
     rotation: 0
-    state: enabled
+    state: disabled
 - name: zeromq_sub_source_0
   id: zeromq_sub_source
   parameters:
@@ -2429,7 +2429,7 @@ blocks:
     bus_structure: null
     coordinate: [56, 1028.0]
     rotation: 0
-    state: enabled
+    state: disabled
 
 connections:
 - [analog_random_source_x_0, '0', digital_constellation_modulator_0, '0']

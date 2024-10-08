@@ -99,27 +99,6 @@ blocks:
     coordinate: [272, 92.0]
     rotation: 0
     state: enabled
-- name: freq_slide
-  id: variable_qtgui_range
-  parameters:
-    comment: ''
-    gui_hint: ''
-    label: ''
-    min_len: '200'
-    orient: QtCore.Qt.Horizontal
-    rangeType: float
-    start: '0'
-    step: 1e3
-    stop: 1e6
-    value: '0'
-    widget: counter_slider
-  states:
-    bus_sink: false
-    bus_source: false
-    bus_structure: null
-    coordinate: [952, 28.0]
-    rotation: 0
-    state: enabled
 - name: hdr_format
   id: variable
   parameters:
@@ -352,7 +331,7 @@ blocks:
     alias: ''
     append: 'True'
     comment: ''
-    file: /home/ccc_gs/Scaricati/c3/qpsk/output.txt
+    file: /home/art3m1sf0wl/program/TRX_test/c3/qpsk/output.txt
     type: byte
     unbuffered: 'False'
     vlen: '1'
@@ -370,7 +349,7 @@ blocks:
     alias: ''
     begin_tag: pmt.PMT_NIL
     comment: ''
-    file: /home/ccc_gs/Scaricati/c3/qpsk/asd.txt
+    file: /home/art3m1sf0wl/program/TRX_test/c3/qpsk/asd.txt
     length: '0'
     maxoutbuf: '0'
     minoutbuf: '0'
@@ -493,7 +472,7 @@ blocks:
     bus_structure: null
     coordinate: [232, 596.0]
     rotation: 0
-    state: disabled
+    state: enabled
 - name: blocks_throttle_0_0
   id: blocks_throttle
   parameters:
@@ -510,9 +489,9 @@ blocks:
     bus_sink: false
     bus_source: false
     bus_structure: null
-    coordinate: [656, 1228.0]
+    coordinate: [648, 1228.0]
     rotation: 0
-    state: disabled
+    state: enabled
 - name: blocks_unpack_k_bits_bb_0
   id: blocks_unpack_k_bits_bb
   parameters:
@@ -902,7 +881,7 @@ blocks:
     ant7: ''
     ant8: ''
     ant9: ''
-    args: '""'
+    args: '"bladerf=0,nchan=1,biastee=1"'
     bb_gain0: '20'
     bb_gain1: '20'
     bb_gain10: '20'
@@ -1008,7 +987,7 @@ blocks:
     corr7: '0'
     corr8: '0'
     corr9: '0'
-    freq0: 143.4e6+freq_slide
+    freq0: 415.4e6
     freq1: 100e6
     freq10: 100e6
     freq11: 100e6
@@ -1301,7 +1280,7 @@ blocks:
     dc_offset_mode7: '0'
     dc_offset_mode8: '0'
     dc_offset_mode9: '0'
-    freq0: 143.4e6+freq_slide
+    freq0: 415.4e6
     freq1: 100e6
     freq10: 100e6
     freq11: 100e6
@@ -2444,6 +2423,7 @@ blocks:
     affinity: ''
     alias: ''
     comment: USRP sample rate = 768kHz
+    drop_on_hwm: 'True'
     hwm: '-1'
     key: ''
     pass_tags: 'False'
@@ -2518,14 +2498,12 @@ connections:
 - [mmse_resampler_xx_0, '0', zeromq_pub_sink_0, '0']
 - [mmse_resampler_xx_0_0, '0', blocks_throttle_0_0, '0']
 - [mmse_resampler_xx_0_0, '0', qtgui_const_sink_x_0_0_0, '0']
-- [mmse_resampler_xx_0_0, '0', virtual_sink_0_0, '0']
 - [osmosdr_source_1, '0', mmse_resampler_xx_0_0, '0']
 - [osmosdr_source_1, '0', qtgui_sink_x_0, '0']
 - [osmosdr_source_1, '0', qtgui_waterfall_sink_x_0, '0']
 - [pdu_pdu_to_tagged_stream_0, '0', digital_constellation_modulator_0, '0']
 - [pdu_pdu_to_tagged_stream_1, '0', blocks_file_sink_0, '0']
 - [pdu_tagged_stream_to_pdu_0, pdus, digital_crc32_async_bb_0, in]
-- [virtual_source_0, '0', blocks_multiply_const_vxx_0, '0']
 - [virtual_source_0, '0', blocks_throttle_0, '0']
 - [virtual_source_0_0, '0', digital_symbol_sync_xx_0, '0']
 - [virtual_source_0_0, '0', digital_symbol_sync_xx_0_0, '0']
@@ -2535,3 +2513,4 @@ connections:
 
 metadata:
   file_format: 1
+  grc_version: 3.10.5.1
