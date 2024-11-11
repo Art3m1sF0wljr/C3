@@ -51,30 +51,22 @@ blocks:
     bus_sink: false
     bus_source: false
     bus_structure: null
-    coordinate: [4152, 1268.0]
+    coordinate: [1672, 12.0]
     rotation: 0
     state: enabled
-- name: RX_toggle
-  id: variable_qtgui_toggle_button_msg
+- name: TRXfrequency
+  id: variable_qtgui_entry
   parameters:
     comment: ''
     gui_hint: ''
-    initPressed: 'False'
-    label: pressedBPSKred releasedQPSKgreen RX
-    outputmsgname: value
-    pressBackgroundColor: red
-    pressFontColor: default
-    pressed: '1'
-    relBackgroundColor: green
-    relFontColor: default
-    released: '0'
+    label: ''
     type: int
-    value: '0'
+    value: '415400000'
   states:
     bus_sink: false
     bus_source: false
     bus_structure: null
-    coordinate: [656, 764.0]
+    coordinate: [296, 20.0]
     rotation: 0
     state: true
 - name: TX_rf_gain
@@ -95,30 +87,7 @@ blocks:
     bus_sink: false
     bus_source: false
     bus_structure: null
-    coordinate: [4032, 1268.0]
-    rotation: 0
-    state: true
-- name: TX_toggle
-  id: variable_qtgui_toggle_button_msg
-  parameters:
-    comment: ''
-    gui_hint: ''
-    initPressed: 'False'
-    label: pressedBPSKred releasedQPSKgreen TX
-    outputmsgname: value
-    pressBackgroundColor: red
-    pressFontColor: default
-    pressed: '1'
-    relBackgroundColor: green
-    relFontColor: default
-    released: '0'
-    type: int
-    value: '0'
-  states:
-    bus_sink: false
-    bus_source: false
-    bus_structure: null
-    coordinate: [5112, 2348.0]
+    coordinate: [1552, 12.0]
     rotation: 0
     state: true
 - name: access_key
@@ -130,7 +99,7 @@ blocks:
     bus_sink: false
     bus_source: false
     bus_structure: null
-    coordinate: [4408, 1356.0]
+    coordinate: [1928, 100.0]
     rotation: 0
     state: enabled
 - name: access_key_0
@@ -142,7 +111,7 @@ blocks:
     bus_sink: false
     bus_source: false
     bus_structure: null
-    coordinate: [3688, 2268.0]
+    coordinate: [1336, 308.0]
     rotation: 0
     state: enabled
 - name: bpsk
@@ -161,7 +130,7 @@ blocks:
     bus_sink: false
     bus_source: false
     bus_structure: null
-    coordinate: [3040, 2188.0]
+    coordinate: [1216, 220.0]
     rotation: 0
     state: true
 - name: excess_bw
@@ -173,7 +142,7 @@ blocks:
     bus_sink: false
     bus_source: false
     bus_structure: null
-    coordinate: [3600, 1340.0]
+    coordinate: [1120, 84.0]
     rotation: 0
     state: enabled
 - name: excess_bw_0
@@ -185,9 +154,30 @@ blocks:
     bus_sink: false
     bus_source: false
     bus_structure: null
-    coordinate: [2880, 2252.0]
+    coordinate: [1056, 284.0]
     rotation: 0
     state: enabled
+- name: freq_slider
+  id: variable_qtgui_range
+  parameters:
+    comment: ''
+    gui_hint: ''
+    label: ''
+    min_len: '200'
+    orient: QtCore.Qt.Horizontal
+    rangeType: float
+    start: '-1000000'
+    step: '1000'
+    stop: '1000000'
+    value: '0'
+    widget: counter_slider
+  states:
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate: [712, 12.0]
+    rotation: 0
+    state: true
 - name: hdr_format
   id: variable
   parameters:
@@ -197,7 +187,7 @@ blocks:
     bus_sink: false
     bus_source: false
     bus_structure: null
-    coordinate: [4600, 1356.0]
+    coordinate: [2120, 100.0]
     rotation: 0
     state: enabled
 - name: hdr_format_0
@@ -209,9 +199,32 @@ blocks:
     bus_sink: false
     bus_source: false
     bus_structure: null
-    coordinate: [3880, 2268.0]
+    coordinate: [1576, 316.0]
     rotation: 0
     state: enabled
+- name: modulation_toggle
+  id: variable_qtgui_toggle_button_msg
+  parameters:
+    comment: ''
+    gui_hint: ''
+    initPressed: 'False'
+    label: pressedBPSKred releasedQPSKgreen RX
+    outputmsgname: value
+    pressBackgroundColor: red
+    pressFontColor: default
+    pressed: '1'
+    relBackgroundColor: green
+    relFontColor: default
+    released: '0'
+    type: int
+    value: '0'
+  states:
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate: [640, 908.0]
+    rotation: 0
+    state: true
 - name: nfilts
   id: variable
   parameters:
@@ -221,7 +234,7 @@ blocks:
     bus_sink: false
     bus_source: false
     bus_structure: null
-    coordinate: [5008, 1348.0]
+    coordinate: [2528, 84.0]
     rotation: 0
     state: enabled
 - name: order
@@ -233,7 +246,7 @@ blocks:
     bus_sink: false
     bus_source: false
     bus_structure: null
-    coordinate: [4776, 1268.0]
+    coordinate: [2296, 4.0]
     rotation: 0
     state: enabled
 - name: order_0
@@ -245,7 +258,7 @@ blocks:
     bus_sink: false
     bus_source: false
     bus_structure: null
-    coordinate: [4112, 2188.0]
+    coordinate: [1808, 244.0]
     rotation: 0
     state: enabled
 - name: phase_bw
@@ -257,7 +270,7 @@ blocks:
     bus_sink: false
     bus_source: false
     bus_structure: null
-    coordinate: [4808, 1348.0]
+    coordinate: [2328, 84.0]
     rotation: 0
     state: true
 - name: phase_bw_0
@@ -269,7 +282,7 @@ blocks:
     bus_sink: false
     bus_source: false
     bus_structure: null
-    coordinate: [4192, 2188.0]
+    coordinate: [1888, 244.0]
     rotation: 0
     state: true
 - name: qpsk
@@ -289,7 +302,7 @@ blocks:
     bus_sink: false
     bus_source: false
     bus_structure: null
-    coordinate: [3840, 1260.0]
+    coordinate: [1360, 4.0]
     rotation: 0
     state: enabled
 - name: rrc_taps
@@ -301,7 +314,7 @@ blocks:
     bus_sink: false
     bus_source: false
     bus_structure: null
-    coordinate: [5096, 1268.0]
+    coordinate: [2616, 4.0]
     rotation: 0
     state: enabled
 - name: rs_ratio
@@ -313,7 +326,7 @@ blocks:
     bus_sink: false
     bus_source: false
     bus_structure: null
-    coordinate: [3680, 1276.0]
+    coordinate: [1200, 20.0]
     rotation: 0
     state: true
 - name: rs_ratio_0
@@ -325,31 +338,31 @@ blocks:
     bus_sink: false
     bus_source: false
     bus_structure: null
-    coordinate: [2960, 2188.0]
+    coordinate: [1136, 220.0]
     rotation: 0
     state: true
 - name: samp_rate
   id: variable
   parameters:
     comment: ''
-    value: '48000'
+    value: '384000'
   states:
     bus_sink: false
     bus_source: false
     bus_structure: null
-    coordinate: [3520, 1276.0]
+    coordinate: [1040, 20.0]
     rotation: 0
     state: enabled
 - name: samp_rate_0
   id: variable
   parameters:
     comment: ''
-    value: '576000'
+    value: '768000'
   states:
     bus_sink: false
     bus_source: false
     bus_structure: null
-    coordinate: [4432, 1292.0]
+    coordinate: [1952, 36.0]
     rotation: 0
     state: enabled
 - name: samp_rate_0_0
@@ -361,7 +374,7 @@ blocks:
     bus_sink: false
     bus_source: false
     bus_structure: null
-    coordinate: [3712, 2204.0]
+    coordinate: [1448, 220.0]
     rotation: 0
     state: enabled
 - name: samp_rate_1
@@ -373,7 +386,7 @@ blocks:
     bus_sink: false
     bus_source: false
     bus_structure: null
-    coordinate: [2800, 2188.0]
+    coordinate: [976, 220.0]
     rotation: 0
     state: enabled
 - name: sdr_samp_rate
@@ -385,7 +398,7 @@ blocks:
     bus_sink: false
     bus_source: false
     bus_structure: null
-    coordinate: [3720, 1340.0]
+    coordinate: [1240, 84.0]
     rotation: 0
     state: enabled
 - name: sdr_samp_rate_0
@@ -397,7 +410,7 @@ blocks:
     bus_sink: false
     bus_source: false
     bus_structure: null
-    coordinate: [3000, 2252.0]
+    coordinate: [1176, 284.0]
     rotation: 0
     state: enabled
 - name: sps
@@ -409,7 +422,7 @@ blocks:
     bus_sink: false
     bus_source: false
     bus_structure: null
-    coordinate: [3600, 1276.0]
+    coordinate: [1120, 20.0]
     rotation: 0
     state: enabled
 - name: sps_0
@@ -421,7 +434,7 @@ blocks:
     bus_sink: false
     bus_source: false
     bus_structure: null
-    coordinate: [4928, 1348.0]
+    coordinate: [2448, 84.0]
     rotation: 0
     state: enabled
 - name: sps_0_0
@@ -433,7 +446,7 @@ blocks:
     bus_sink: false
     bus_source: false
     bus_structure: null
-    coordinate: [4288, 2172.0]
+    coordinate: [1984, 228.0]
     rotation: 0
     state: enabled
 - name: sps_1
@@ -445,7 +458,7 @@ blocks:
     bus_sink: false
     bus_source: false
     bus_structure: null
-    coordinate: [2880, 2188.0]
+    coordinate: [1056, 220.0]
     rotation: 0
     state: enabled
 - name: thresh
@@ -457,7 +470,7 @@ blocks:
     bus_sink: false
     bus_source: false
     bus_structure: null
-    coordinate: [4984, 1268.0]
+    coordinate: [2504, 4.0]
     rotation: 0
     state: enabled
 - name: thresh_0
@@ -469,31 +482,31 @@ blocks:
     bus_sink: false
     bus_source: false
     bus_structure: null
-    coordinate: [4016, 2188.0]
+    coordinate: [1712, 244.0]
     rotation: 0
     state: enabled
 - name: usrp_rate
   id: variable
   parameters:
     comment: ''
-    value: '768000'
+    value: '576000'
   states:
     bus_sink: false
     bus_source: false
     bus_structure: null
-    coordinate: [3520, 1340.0]
+    coordinate: [1040, 84.0]
     rotation: 0
     state: true
 - name: usrp_rate_0
   id: variable
   parameters:
     comment: ''
-    value: '768000'
+    value: '576000'
   states:
     bus_sink: false
     bus_source: false
     bus_structure: null
-    coordinate: [4872, 1268.0]
+    coordinate: [2392, 4.0]
     rotation: 0
     state: true
 - name: usrp_rate_0_0
@@ -505,7 +518,7 @@ blocks:
     bus_sink: false
     bus_source: false
     bus_structure: null
-    coordinate: [3912, 2188.0]
+    coordinate: [1608, 244.0]
     rotation: 0
     state: true
 - name: usrp_rate_1
@@ -517,7 +530,7 @@ blocks:
     bus_sink: false
     bus_source: false
     bus_structure: null
-    coordinate: [2800, 2252.0]
+    coordinate: [976, 284.0]
     rotation: 0
     state: true
 - name: variable_adaptive_algorithm_0
@@ -534,7 +547,7 @@ blocks:
     bus_sink: false
     bus_source: false
     bus_structure: null
-    coordinate: [5088, 1364.0]
+    coordinate: [3624, 1940.0]
     rotation: 0
     state: true
 - name: variable_adaptive_algorithm_0_0
@@ -561,7 +574,7 @@ blocks:
     alias: ''
     append: 'True'
     comment: ''
-    file: /home/ccc_gs/Scaricati/c3/test_out.txt
+    file: /home/ccc_gs/Scaricati/c3/qpsk/rx_data.bin
     type: byte
     unbuffered: 'False'
     vlen: '1'
@@ -597,7 +610,7 @@ blocks:
     alias: ''
     begin_tag: pmt.PMT_NIL
     comment: ''
-    file: /home/ccc_gs/Scaricati/c3/test.txt
+    file: /home/ccc_gs/Scaricati/c3/qpsk/tx_data.bin
     length: '0'
     maxoutbuf: '0'
     minoutbuf: '0'
@@ -713,7 +726,7 @@ blocks:
     alias: ''
     comment: ''
     enabled: 'True'
-    input_index: int(TX_toggle)
+    input_index: int(modulation_toggle)
     maxoutbuf: '0'
     minoutbuf: '0'
     num_inputs: '2'
@@ -741,7 +754,7 @@ blocks:
     minoutbuf: '0'
     num_inputs: '1'
     num_outputs: '2'
-    output_index: int(RX_toggle)
+    output_index: int(modulation_toggle)
     showports: 'True'
     type: complex
     vlen: '1'
@@ -809,7 +822,7 @@ blocks:
     bus_structure: null
     coordinate: [4376, 1544.0]
     rotation: 0
-    state: enabled
+    state: disabled
 - name: blocks_tagged_stream_mux_0_0
   id: blocks_tagged_stream_mux
   parameters:
@@ -1108,7 +1121,7 @@ blocks:
     bus_structure: null
     coordinate: [4008, 1452.0]
     rotation: 0
-    state: enabled
+    state: disabled
 - name: digital_crc32_bb_0_0
   id: digital_crc32_bb
   parameters:
@@ -1269,7 +1282,7 @@ blocks:
     bus_structure: null
     coordinate: [4272, 1452.0]
     rotation: 0
-    state: enabled
+    state: disabled
 - name: digital_protocol_formatter_bb_0_0
   id: digital_protocol_formatter_bb
   parameters:
@@ -1594,7 +1607,7 @@ blocks:
     corr7: '0'
     corr8: '0'
     corr9: '0'
-    freq0: 415.4e6
+    freq0: TRXfrequency+freq_slider
     freq1: 100e6
     freq10: 100e6
     freq11: 100e6
@@ -1749,7 +1762,7 @@ blocks:
     ant7: ''
     ant8: ''
     ant9: ''
-    args: '"bladerf=0,nchan=1,buffers=48,transfers=24,agc_mode=manual,biastee=1"'
+    args: '"bladerf=0,nchan=1,buffers=48,transfers=24,agc_mode=manual"'
     bb_gain0: '20'
     bb_gain1: '20'
     bb_gain10: '20'
@@ -1887,7 +1900,7 @@ blocks:
     dc_offset_mode7: '0'
     dc_offset_mode8: '0'
     dc_offset_mode9: '0'
-    freq0: 415.4e6
+    freq0: TRXfrequency+freq_slider
     freq1: 100e6
     freq10: 100e6
     freq11: 100e6
@@ -3229,7 +3242,7 @@ blocks:
     color8: '0'
     color9: '0'
     comment: ''
-    fc: '0'
+    fc: '415300000'
     fftsize: '1024'
     freqhalf: 'True'
     grid: 'False'
@@ -3478,6 +3491,7 @@ connections:
 - [blocks_selector_0, '0', zeromq_pub_sink_0, '0']
 - [blocks_selector_1, '0', mmse_resampler_xx_0_0, '0']
 - [blocks_selector_1, '1', mmse_resampler_xx_0_0_0, '0']
+- [blocks_stream_to_tagged_stream_0, '0', digital_constellation_modulator_0, '0']
 - [blocks_stream_to_tagged_stream_0, '0', digital_crc32_bb_0, '0']
 - [blocks_stream_to_tagged_stream_0_0, '0', digital_crc32_bb_0_1, '0']
 - [blocks_tagged_stream_mux_0, '0', digital_constellation_modulator_0, '0']
