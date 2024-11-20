@@ -252,6 +252,18 @@ blocks:
     coordinate: [2528, 84.0]
     rotation: 0
     state: enabled
+- name: offset_freq
+  id: variable
+  parameters:
+    comment: ''
+    value: '200000'
+  states:
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate: [920, 92.0]
+    rotation: 0
+    state: true
 - name: order
   id: variable
   parameters:
@@ -544,6 +556,28 @@ blocks:
     coordinate: [1864, 832.0]
     rotation: 0
     state: true
+- name: analog_sig_source_x_0
+  id: analog_sig_source_x
+  parameters:
+    affinity: ''
+    alias: ''
+    amp: '1'
+    comment: ''
+    freq: offset_freq
+    maxoutbuf: '0'
+    minoutbuf: '0'
+    offset: '0'
+    phase: '0'
+    samp_rate: samp_rate
+    type: complex
+    waveform: analog.GR_COS_WAVE
+  states:
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate: [5128, 2012.0]
+    rotation: 0
+    state: true
 - name: blocks_file_sink_0
   id: blocks_file_sink
   parameters:
@@ -658,6 +692,24 @@ blocks:
     bus_source: false
     bus_structure: null
     coordinate: [3872, 2604.0]
+    rotation: 0
+    state: true
+- name: blocks_multiply_xx_0
+  id: blocks_multiply_xx
+  parameters:
+    affinity: ''
+    alias: ''
+    comment: ''
+    maxoutbuf: '0'
+    minoutbuf: '0'
+    num_inputs: '2'
+    type: complex
+    vlen: '1'
+  states:
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate: [5368, 2168.0]
     rotation: 0
     state: true
 - name: blocks_null_source_0
@@ -1554,7 +1606,7 @@ blocks:
     corr7: '0'
     corr8: '0'
     corr9: '0'
-    freq0: TXfrequency+freq_slider
+    freq0: TXfrequency+freq_slider-offset_freq
     freq1: 100e6
     freq10: 100e6
     freq11: 100e6
@@ -1669,7 +1721,7 @@ blocks:
     bus_sink: false
     bus_source: false
     bus_structure: null
-    coordinate: [5456, 1964.0]
+    coordinate: [5568, 1964.0]
     rotation: 0
     state: enabled
 - name: osmosdr_source_1
@@ -2210,7 +2262,7 @@ blocks:
     bus_sink: false
     bus_source: false
     bus_structure: null
-    coordinate: [5480, 2196.0]
+    coordinate: [5560, 2188.0]
     rotation: 0
     state: enabled
 - name: qtgui_const_sink_x_0_0_0
@@ -2935,7 +2987,7 @@ blocks:
     bus_sink: false
     bus_source: false
     bus_structure: null
-    coordinate: [5480, 2300.0]
+    coordinate: [5576, 2292.0]
     rotation: 0
     state: true
 - name: qtgui_sink_x_0
@@ -3503,6 +3555,8 @@ blocks:
     state: disabled
 
 connections:
+- [analog_sig_source_x_0, '0', blocks_multiply_xx_0, '0']
+- [analog_sig_source_x_0, '0', zeromq_pub_sink_0, '0']
 - [blocks_file_source_0, '0', blocks_stream_to_tagged_stream_0, '0']
 - [blocks_file_source_0, '0', blocks_throttle_0_1, '0']
 - [blocks_file_source_0_0, '0', blocks_stream_to_tagged_stream_0_0, '0']
@@ -3511,16 +3565,16 @@ connections:
 - [blocks_multiply_const_vxx_0, '0', rational_resampler_xxx_0_2, '0']
 - [blocks_multiply_const_vxx_0_0, '0', qtgui_time_sink_x_0_1, '0']
 - [blocks_multiply_const_vxx_0_0, '0', rational_resampler_xxx_0, '0']
+- [blocks_multiply_xx_0, '0', osmosdr_sink_0, '0']
+- [blocks_multiply_xx_0, '0', qtgui_const_sink_x_0_0, '0']
+- [blocks_multiply_xx_0, '0', qtgui_freq_sink_x_0, '0']
 - [blocks_null_source_0, '0', blocks_selector_2, '0']
 - [blocks_pack_k_bits_bb_0, '0', blocks_file_sink_0, '0']
 - [blocks_repack_bits_bb_1, '0', digital_crc32_bb_0_0, '0']
 - [blocks_selector_0, '0', blocks_selector_2, '1']
 - [blocks_selector_1, '0', rational_resampler_xxx_0_0, '0']
 - [blocks_selector_1, '1', rational_resampler_xxx_0_1, '0']
-- [blocks_selector_2, '0', osmosdr_sink_0, '0']
-- [blocks_selector_2, '0', qtgui_const_sink_x_0_0, '0']
-- [blocks_selector_2, '0', qtgui_freq_sink_x_0, '0']
-- [blocks_selector_2, '0', zeromq_pub_sink_0, '0']
+- [blocks_selector_2, '0', blocks_multiply_xx_0, '1']
 - [blocks_stream_to_tagged_stream_0, '0', digital_constellation_modulator_0, '0']
 - [blocks_stream_to_tagged_stream_0, '0', digital_crc32_bb_0, '0']
 - [blocks_stream_to_tagged_stream_0_0, '0', digital_crc32_bb_0_1, '0']
