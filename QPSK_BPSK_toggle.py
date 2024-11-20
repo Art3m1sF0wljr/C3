@@ -7,7 +7,7 @@
 # GNU Radio Python Flow Graph
 # Title: QPSK_BPSK_toggle
 # Author: Art3m1sF0wl
-# GNU Radio version: 3.10.1.1
+# GNU Radio version: 3.10.5.1
 
 from packaging.version import Version as StrictVersion
 
@@ -87,23 +87,18 @@ class QPSK_BPSK_toggle(gr.top_block, Qt.QWidget):
         self.nfilts = nfilts = 32
         self.bpsk = bpsk = digital.constellation_bpsk().base()
         self.access_key = access_key = '11100001010110101110100010010011'
+        self.variable_qtgui_toggle_button_msg_0 = variable_qtgui_toggle_button_msg_0 = 0
         self.variable_adaptive_algorithm_0_0 = variable_adaptive_algorithm_0_0 = digital.adaptive_algorithm_cma( bpsk, .0001, sps).base()
         self.variable_adaptive_algorithm_0 = variable_adaptive_algorithm_0 = digital.adaptive_algorithm_cma( qpsk, .0001, sps).base()
         self.usrp_rate_1 = usrp_rate_1 = 768000
-        self.usrp_rate_0_0 = usrp_rate_0_0 = 768000
-        self.usrp_rate_0 = usrp_rate_0 = 576000
-        self.usrp_rate = usrp_rate = 576000
+        self.transmit_button = transmit_button = 0
         self.thresh_0 = thresh_0 = 1
         self.thresh = thresh = 1
         self.sps_1 = sps_1 = 2
         self.sps_0_0 = sps_0_0 = 2
         self.sps_0 = sps_0 = 2
-        self.sdr_samp_rate_0 = sdr_samp_rate_0 = 576000
         self.sdr_samp_rate = sdr_samp_rate = 576000
-        self.samp_rate_1 = samp_rate_1 = 48000
-        self.samp_rate_0_0 = samp_rate_0_0 = 576000
-        self.samp_rate_0 = samp_rate_0 = 768000
-        self.samp_rate = samp_rate = 384000
+        self.samp_rate = samp_rate = 576000
         self.rs_ratio_0 = rs_ratio_0 = 1.040
         self.rs_ratio = rs_ratio = 1.040
         self.rrc_taps = rrc_taps = firdes.root_raised_cosine(nfilts, nfilts, 1.0/float(sps), 0.35, 11*sps*nfilts)
@@ -118,41 +113,79 @@ class QPSK_BPSK_toggle(gr.top_block, Qt.QWidget):
         self.excess_bw_0 = excess_bw_0 = 0.35
         self.excess_bw = excess_bw = 0.35
         self.access_key_0 = access_key_0 = '11100001010110101110100010010011'
+        self.TXfrequency = TXfrequency = 415400000
         self.TX_rf_gain = TX_rf_gain = 40
-        self.TRXfrequency = TRXfrequency = 415400000
+        self.RXfrequency = RXfrequency = 415400000
         self.RX_rf_gain = RX_rf_gain = 40
 
         ##################################################
         # Blocks
         ##################################################
-        if int == bool:
-        	self._modulation_toggle_choices = {'Pressed': bool(1), 'Released': bool(0)}
-        elif int == str:
-        	self._modulation_toggle_choices = {'Pressed': "1".replace("'",""), 'Released': "0".replace("'","")}
-        else:
-        	self._modulation_toggle_choices = {'Pressed': 1, 'Released': 0}
 
-        _modulation_toggle_toggle_button = qtgui.ToggleButton(self.set_modulation_toggle, 'pressedBPSKred releasedQPSKgreen RX', self._modulation_toggle_choices, False,"'value'".replace("'",""))
-        _modulation_toggle_toggle_button.setColors("green","default","red","default")
+        self._transmit_button_choices = {'Pressed': 1, 'Released': 0}
+
+        _transmit_button_toggle_button = qtgui.ToggleButton(self.set_transmit_button, 'TX', self._transmit_button_choices, False, 'value')
+        _transmit_button_toggle_button.setColors("default", "default", "red", "default")
+        self.transmit_button = _transmit_button_toggle_button
+
+        self.top_layout.addWidget(_transmit_button_toggle_button)
+        self._modulation_toggle_choices = {'Pressed': 1, 'Released': 0}
+
+        _modulation_toggle_toggle_button = qtgui.ToggleButton(self.set_modulation_toggle, 'pressedBPSKred releasedQPSKgreen RX', self._modulation_toggle_choices, False, 'value')
+        _modulation_toggle_toggle_button.setColors("green", "default", "red", "default")
         self.modulation_toggle = _modulation_toggle_toggle_button
 
         self.top_layout.addWidget(_modulation_toggle_toggle_button)
         self._freq_slider_range = Range(-1000000, 1000000, 1000, 0, 200)
         self._freq_slider_win = RangeWidget(self._freq_slider_range, self.set_freq_slider, "'freq_slider'", "counter_slider", float, QtCore.Qt.Horizontal)
         self.top_layout.addWidget(self._freq_slider_win)
+        self._TXfrequency_tool_bar = Qt.QToolBar(self)
+        self._TXfrequency_tool_bar.addWidget(Qt.QLabel("'TXfrequency'" + ": "))
+        self._TXfrequency_line_edit = Qt.QLineEdit(str(self.TXfrequency))
+        self._TXfrequency_tool_bar.addWidget(self._TXfrequency_line_edit)
+        self._TXfrequency_line_edit.returnPressed.connect(
+            lambda: self.set_TXfrequency(int(str(self._TXfrequency_line_edit.text()))))
+        self.top_layout.addWidget(self._TXfrequency_tool_bar)
         self._TX_rf_gain_range = Range(0, 50, 1, 40, 200)
         self._TX_rf_gain_win = RangeWidget(self._TX_rf_gain_range, self.set_TX_rf_gain, "'TX_rf_gain'", "counter_slider", float, QtCore.Qt.Horizontal)
         self.top_layout.addWidget(self._TX_rf_gain_win)
-        self._TRXfrequency_tool_bar = Qt.QToolBar(self)
-        self._TRXfrequency_tool_bar.addWidget(Qt.QLabel("'TRXfrequency'" + ": "))
-        self._TRXfrequency_line_edit = Qt.QLineEdit(str(self.TRXfrequency))
-        self._TRXfrequency_tool_bar.addWidget(self._TRXfrequency_line_edit)
-        self._TRXfrequency_line_edit.returnPressed.connect(
-            lambda: self.set_TRXfrequency(int(str(self._TRXfrequency_line_edit.text()))))
-        self.top_layout.addWidget(self._TRXfrequency_tool_bar)
+        self._RXfrequency_tool_bar = Qt.QToolBar(self)
+        self._RXfrequency_tool_bar.addWidget(Qt.QLabel("'RXfrequency'" + ": "))
+        self._RXfrequency_line_edit = Qt.QLineEdit(str(self.RXfrequency))
+        self._RXfrequency_tool_bar.addWidget(self._RXfrequency_line_edit)
+        self._RXfrequency_line_edit.returnPressed.connect(
+            lambda: self.set_RXfrequency(int(str(self._RXfrequency_line_edit.text()))))
+        self.top_layout.addWidget(self._RXfrequency_tool_bar)
         self._RX_rf_gain_range = Range(0, 50, 1, 40, 200)
         self._RX_rf_gain_win = RangeWidget(self._RX_rf_gain_range, self.set_RX_rf_gain, "'RX_rf_gain'", "counter_slider", float, QtCore.Qt.Horizontal)
         self.top_layout.addWidget(self._RX_rf_gain_win)
+        self._variable_qtgui_toggle_button_msg_0_choices = {'Pressed': 1, 'Released': 0}
+
+        _variable_qtgui_toggle_button_msg_0_toggle_button = qtgui.ToggleButton(self.set_variable_qtgui_toggle_button_msg_0, 'variable_qtgui_toggle_button_msg_0', self._variable_qtgui_toggle_button_msg_0_choices, False, 'value')
+        _variable_qtgui_toggle_button_msg_0_toggle_button.setColors("default", "default", "default", "default")
+        self.variable_qtgui_toggle_button_msg_0 = _variable_qtgui_toggle_button_msg_0_toggle_button
+
+        self.top_layout.addWidget(_variable_qtgui_toggle_button_msg_0_toggle_button)
+        self.rational_resampler_xxx_0_2 = filter.rational_resampler_ccc(
+                interpolation=1,
+                decimation=1,
+                taps=[],
+                fractional_bw=0)
+        self.rational_resampler_xxx_0_1 = filter.rational_resampler_ccc(
+                interpolation=1,
+                decimation=1,
+                taps=[],
+                fractional_bw=0)
+        self.rational_resampler_xxx_0_0 = filter.rational_resampler_ccc(
+                interpolation=1,
+                decimation=1,
+                taps=[],
+                fractional_bw=0)
+        self.rational_resampler_xxx_0 = filter.rational_resampler_ccc(
+                interpolation=1,
+                decimation=1,
+                taps=[],
+                fractional_bw=0)
         self.qtgui_waterfall_sink_x_0 = qtgui.waterfall_sink_c(
             1024, #size
             window.WIN_BLACKMAN_hARRIS, #wintype
@@ -192,7 +225,7 @@ class QPSK_BPSK_toggle(gr.top_block, Qt.QWidget):
             1024, #fftsize
             window.WIN_BLACKMAN_hARRIS, #wintype
             0, #fc
-            samp_rate, #bw
+            sdr_samp_rate, #bw
             "", #name
             True, #plotfreq
             True, #plotwaterfall
@@ -216,7 +249,7 @@ class QPSK_BPSK_toggle(gr.top_block, Qt.QWidget):
             None # parent
         )
         self.qtgui_freq_sink_x_0.set_update_time(0.10)
-        self.qtgui_freq_sink_x_0.set_y_axis(-140, 10)
+        self.qtgui_freq_sink_x_0.set_y_axis((-140), 10)
         self.qtgui_freq_sink_x_0.set_y_label('Relative Gain', 'dB')
         self.qtgui_freq_sink_x_0.set_trigger_mode(qtgui.TRIG_MODE_FREE, 0.0, 0, "")
         self.qtgui_freq_sink_x_0.enable_autoscale(False)
@@ -255,8 +288,8 @@ class QPSK_BPSK_toggle(gr.top_block, Qt.QWidget):
             None # parent
         )
         self.qtgui_const_sink_x_0_0_0_0_0_0.set_update_time(0.10)
-        self.qtgui_const_sink_x_0_0_0_0_0_0.set_y_axis(-1, 1)
-        self.qtgui_const_sink_x_0_0_0_0_0_0.set_x_axis(-2, 2)
+        self.qtgui_const_sink_x_0_0_0_0_0_0.set_y_axis((-1), 1)
+        self.qtgui_const_sink_x_0_0_0_0_0_0.set_x_axis((-2), 2)
         self.qtgui_const_sink_x_0_0_0_0_0_0.set_trigger_mode(qtgui.TRIG_MODE_FREE, qtgui.TRIG_SLOPE_POS, 0.0, 0, "")
         self.qtgui_const_sink_x_0_0_0_0_0_0.enable_autoscale(False)
         self.qtgui_const_sink_x_0_0_0_0_0_0.enable_grid(False)
@@ -296,8 +329,8 @@ class QPSK_BPSK_toggle(gr.top_block, Qt.QWidget):
             None # parent
         )
         self.qtgui_const_sink_x_0_0_0_0_0.set_update_time(0.10)
-        self.qtgui_const_sink_x_0_0_0_0_0.set_y_axis(-1, 1)
-        self.qtgui_const_sink_x_0_0_0_0_0.set_x_axis(-2, 2)
+        self.qtgui_const_sink_x_0_0_0_0_0.set_y_axis((-1), 1)
+        self.qtgui_const_sink_x_0_0_0_0_0.set_x_axis((-2), 2)
         self.qtgui_const_sink_x_0_0_0_0_0.set_trigger_mode(qtgui.TRIG_MODE_FREE, qtgui.TRIG_SLOPE_POS, 0.0, 0, "")
         self.qtgui_const_sink_x_0_0_0_0_0.enable_autoscale(False)
         self.qtgui_const_sink_x_0_0_0_0_0.enable_grid(False)
@@ -337,8 +370,8 @@ class QPSK_BPSK_toggle(gr.top_block, Qt.QWidget):
             None # parent
         )
         self.qtgui_const_sink_x_0_0.set_update_time(0.10)
-        self.qtgui_const_sink_x_0_0.set_y_axis(-1, 1)
-        self.qtgui_const_sink_x_0_0.set_x_axis(-2, 2)
+        self.qtgui_const_sink_x_0_0.set_y_axis((-1), 1)
+        self.qtgui_const_sink_x_0_0.set_x_axis((-2), 2)
         self.qtgui_const_sink_x_0_0.set_trigger_mode(qtgui.TRIG_MODE_FREE, qtgui.TRIG_SLOPE_POS, 0.0, 0, "")
         self.qtgui_const_sink_x_0_0.enable_autoscale(True)
         self.qtgui_const_sink_x_0_0.enable_grid(False)
@@ -375,8 +408,8 @@ class QPSK_BPSK_toggle(gr.top_block, Qt.QWidget):
             args="numchan=" + str(1) + " " + "bladerf=0,nchan=1,buffers=48,transfers=24,agc_mode=manual"
         )
         self.osmosdr_source_1.set_time_unknown_pps(osmosdr.time_spec_t())
-        self.osmosdr_source_1.set_sample_rate(samp_rate_0)
-        self.osmosdr_source_1.set_center_freq(TRXfrequency+freq_slider, 0)
+        self.osmosdr_source_1.set_sample_rate(sdr_samp_rate)
+        self.osmosdr_source_1.set_center_freq((RXfrequency+freq_slider), 0)
         self.osmosdr_source_1.set_freq_corr(0, 0)
         self.osmosdr_source_1.set_dc_offset_mode(0, 0)
         self.osmosdr_source_1.set_iq_balance_mode(0, 0)
@@ -384,24 +417,20 @@ class QPSK_BPSK_toggle(gr.top_block, Qt.QWidget):
         self.osmosdr_source_1.set_gain(RX_rf_gain, 0)
         self.osmosdr_source_1.set_if_gain(20, 0)
         self.osmosdr_source_1.set_bb_gain(20, 0)
-        self.osmosdr_source_1.set_antenna('', 0)
+        self.osmosdr_source_1.set_antenna('RX1', 0)
         self.osmosdr_source_1.set_bandwidth(0, 0)
         self.osmosdr_sink_0 = osmosdr.sink(
             args="numchan=" + str(1) + " " + "bladerf=0,nchan=1,buffers=48,transfers=24,agc_mode=manual,biastee=1"
         )
         self.osmosdr_sink_0.set_time_unknown_pps(osmosdr.time_spec_t())
-        self.osmosdr_sink_0.set_sample_rate(samp_rate_0)
-        self.osmosdr_sink_0.set_center_freq(TRXfrequency+freq_slider, 0)
+        self.osmosdr_sink_0.set_sample_rate(sdr_samp_rate)
+        self.osmosdr_sink_0.set_center_freq((TXfrequency+freq_slider), 0)
         self.osmosdr_sink_0.set_freq_corr(0, 0)
         self.osmosdr_sink_0.set_gain(TX_rf_gain, 0)
         self.osmosdr_sink_0.set_if_gain(20, 0)
         self.osmosdr_sink_0.set_bb_gain(20, 0)
-        self.osmosdr_sink_0.set_antenna('', 0)
+        self.osmosdr_sink_0.set_antenna('TX1', 0)
         self.osmosdr_sink_0.set_bandwidth(0, 0)
-        self.mmse_resampler_xx_0_1 = filter.mmse_resampler_cc(0, 1.0/((usrp_rate/samp_rate)*rs_ratio))
-        self.mmse_resampler_xx_0_0_0 = filter.mmse_resampler_cc(0, ((usrp_rate/samp_rate)*rs_ratio))
-        self.mmse_resampler_xx_0_0 = filter.mmse_resampler_cc(0, ((usrp_rate/samp_rate)*rs_ratio))
-        self.mmse_resampler_xx_0 = filter.mmse_resampler_cc(0, 1.0/((usrp_rate/samp_rate)*rs_ratio))
         self.digital_symbol_sync_xx_0_0 = digital.symbol_sync_cc(
             digital.TED_SIGNAL_TIMES_SLOPE_ML,
             sps,
@@ -463,21 +492,24 @@ class QPSK_BPSK_toggle(gr.top_block, Qt.QWidget):
         self.blocks_tagged_stream_mux_0_0 = blocks.tagged_stream_mux(gr.sizeof_char*1, 'packet_len', 0)
         self.blocks_stream_to_tagged_stream_0_0 = blocks.stream_to_tagged_stream(gr.sizeof_char, 1, 252, "packet_len")
         self.blocks_stream_to_tagged_stream_0 = blocks.stream_to_tagged_stream(gr.sizeof_char, 1, 252, "packet_len")
+        self.blocks_selector_2 = blocks.selector(gr.sizeof_gr_complex*1,int(transmit_button),0)
+        self.blocks_selector_2.set_enabled(True)
         self.blocks_selector_1 = blocks.selector(gr.sizeof_gr_complex*1,0,int(modulation_toggle))
         self.blocks_selector_1.set_enabled(True)
         self.blocks_selector_0 = blocks.selector(gr.sizeof_gr_complex*1,int(modulation_toggle),0)
         self.blocks_selector_0.set_enabled(True)
         self.blocks_repack_bits_bb_1 = blocks.repack_bits_bb(1, 8, "packet_len", False, gr.GR_MSB_FIRST)
         self.blocks_pack_k_bits_bb_0 = blocks.pack_k_bits_bb(8)
+        self.blocks_null_source_0 = blocks.null_source(gr.sizeof_gr_complex*1)
         self.blocks_multiply_const_vxx_0_0 = blocks.multiply_const_cc(0.5)
         self.blocks_multiply_const_vxx_0 = blocks.multiply_const_cc(0.5)
-        self.blocks_file_source_0_0 = blocks.file_source(gr.sizeof_char*1, '/home/ccc_gs/Scaricati/c3/test.txt', True, 0, 0)
+        self.blocks_file_source_0_0 = blocks.file_source(gr.sizeof_char*1, '/home/art3m1sf0wl/program/TRX_test/c3/test.txt', True, 0, 0)
         self.blocks_file_source_0_0.set_begin_tag(pmt.PMT_NIL)
-        self.blocks_file_source_0 = blocks.file_source(gr.sizeof_char*1, '/home/ccc_gs/Scaricati/c3/qpsk/tx_data.bin', True, 0, 0)
+        self.blocks_file_source_0 = blocks.file_source(gr.sizeof_char*1, '/home/art3m1sf0wl/program/TRX_test/c3/LRPT_working/tx_data.bin', True, 0, 0)
         self.blocks_file_source_0.set_begin_tag(pmt.PMT_NIL)
-        self.blocks_file_sink_0_0 = blocks.file_sink(gr.sizeof_char*1, '/home/ccc_gs/Scaricati/c3/test_out.txt', True)
+        self.blocks_file_sink_0_0 = blocks.file_sink(gr.sizeof_char*1, '/home/art3m1sf0wl/program/TRX_test/c3/test_out.txt', True)
         self.blocks_file_sink_0_0.set_unbuffered(False)
-        self.blocks_file_sink_0 = blocks.file_sink(gr.sizeof_char*1, '/home/ccc_gs/Scaricati/c3/qpsk/rx_data.bin', True)
+        self.blocks_file_sink_0 = blocks.file_sink(gr.sizeof_char*1, '/home/art3m1sf0wl/program/TRX_test/c3/LRPT_working/rx_data.bin', True)
         self.blocks_file_sink_0.set_unbuffered(False)
 
 
@@ -486,15 +518,17 @@ class QPSK_BPSK_toggle(gr.top_block, Qt.QWidget):
         ##################################################
         self.connect((self.blocks_file_source_0, 0), (self.blocks_stream_to_tagged_stream_0, 0))
         self.connect((self.blocks_file_source_0_0, 0), (self.blocks_stream_to_tagged_stream_0_0, 0))
-        self.connect((self.blocks_multiply_const_vxx_0, 0), (self.mmse_resampler_xx_0, 0))
-        self.connect((self.blocks_multiply_const_vxx_0_0, 0), (self.mmse_resampler_xx_0_1, 0))
+        self.connect((self.blocks_multiply_const_vxx_0, 0), (self.rational_resampler_xxx_0_2, 0))
+        self.connect((self.blocks_multiply_const_vxx_0_0, 0), (self.rational_resampler_xxx_0, 0))
+        self.connect((self.blocks_null_source_0, 0), (self.blocks_selector_2, 0))
         self.connect((self.blocks_pack_k_bits_bb_0, 0), (self.blocks_file_sink_0, 0))
         self.connect((self.blocks_repack_bits_bb_1, 0), (self.digital_crc32_bb_0_0, 0))
-        self.connect((self.blocks_selector_0, 0), (self.osmosdr_sink_0, 0))
-        self.connect((self.blocks_selector_0, 0), (self.qtgui_const_sink_x_0_0, 0))
-        self.connect((self.blocks_selector_0, 0), (self.qtgui_freq_sink_x_0, 0))
-        self.connect((self.blocks_selector_1, 0), (self.mmse_resampler_xx_0_0, 0))
-        self.connect((self.blocks_selector_1, 1), (self.mmse_resampler_xx_0_0_0, 0))
+        self.connect((self.blocks_selector_0, 0), (self.blocks_selector_2, 1))
+        self.connect((self.blocks_selector_1, 0), (self.rational_resampler_xxx_0_0, 0))
+        self.connect((self.blocks_selector_1, 1), (self.rational_resampler_xxx_0_1, 0))
+        self.connect((self.blocks_selector_2, 0), (self.osmosdr_sink_0, 0))
+        self.connect((self.blocks_selector_2, 0), (self.qtgui_const_sink_x_0_0, 0))
+        self.connect((self.blocks_selector_2, 0), (self.qtgui_freq_sink_x_0, 0))
         self.connect((self.blocks_stream_to_tagged_stream_0, 0), (self.digital_constellation_modulator_0, 0))
         self.connect((self.blocks_stream_to_tagged_stream_0_0, 0), (self.digital_crc32_bb_0_1, 0))
         self.connect((self.blocks_tagged_stream_mux_0_0, 0), (self.digital_constellation_modulator_0_0, 0))
@@ -520,13 +554,13 @@ class QPSK_BPSK_toggle(gr.top_block, Qt.QWidget):
         self.connect((self.digital_protocol_formatter_bb_0_0, 0), (self.blocks_tagged_stream_mux_0_0, 0))
         self.connect((self.digital_symbol_sync_xx_0, 0), (self.digital_linear_equalizer_0_0, 0))
         self.connect((self.digital_symbol_sync_xx_0_0, 0), (self.digital_linear_equalizer_0, 0))
-        self.connect((self.mmse_resampler_xx_0, 0), (self.blocks_selector_0, 0))
-        self.connect((self.mmse_resampler_xx_0_0, 0), (self.digital_symbol_sync_xx_0_0, 0))
-        self.connect((self.mmse_resampler_xx_0_0_0, 0), (self.digital_symbol_sync_xx_0, 0))
-        self.connect((self.mmse_resampler_xx_0_1, 0), (self.blocks_selector_0, 1))
         self.connect((self.osmosdr_source_1, 0), (self.blocks_selector_1, 0))
         self.connect((self.osmosdr_source_1, 0), (self.qtgui_sink_x_0, 0))
         self.connect((self.osmosdr_source_1, 0), (self.qtgui_waterfall_sink_x_0, 0))
+        self.connect((self.rational_resampler_xxx_0, 0), (self.blocks_selector_0, 1))
+        self.connect((self.rational_resampler_xxx_0_0, 0), (self.digital_symbol_sync_xx_0_0, 0))
+        self.connect((self.rational_resampler_xxx_0_1, 0), (self.digital_symbol_sync_xx_0, 0))
+        self.connect((self.rational_resampler_xxx_0_2, 0), (self.blocks_selector_0, 0))
 
 
     def closeEvent(self, event):
@@ -571,6 +605,12 @@ class QPSK_BPSK_toggle(gr.top_block, Qt.QWidget):
         self.set_hdr_format(digital.header_format_default(self.access_key, 0))
         self.set_hdr_format_0(digital.header_format_default(self.access_key, 0))
 
+    def get_variable_qtgui_toggle_button_msg_0(self):
+        return self.variable_qtgui_toggle_button_msg_0
+
+    def set_variable_qtgui_toggle_button_msg_0(self, variable_qtgui_toggle_button_msg_0):
+        self.variable_qtgui_toggle_button_msg_0 = variable_qtgui_toggle_button_msg_0
+
     def get_variable_adaptive_algorithm_0_0(self):
         return self.variable_adaptive_algorithm_0_0
 
@@ -589,27 +629,12 @@ class QPSK_BPSK_toggle(gr.top_block, Qt.QWidget):
     def set_usrp_rate_1(self, usrp_rate_1):
         self.usrp_rate_1 = usrp_rate_1
 
-    def get_usrp_rate_0_0(self):
-        return self.usrp_rate_0_0
+    def get_transmit_button(self):
+        return self.transmit_button
 
-    def set_usrp_rate_0_0(self, usrp_rate_0_0):
-        self.usrp_rate_0_0 = usrp_rate_0_0
-
-    def get_usrp_rate_0(self):
-        return self.usrp_rate_0
-
-    def set_usrp_rate_0(self, usrp_rate_0):
-        self.usrp_rate_0 = usrp_rate_0
-
-    def get_usrp_rate(self):
-        return self.usrp_rate
-
-    def set_usrp_rate(self, usrp_rate):
-        self.usrp_rate = usrp_rate
-        self.mmse_resampler_xx_0.set_resamp_ratio(1.0/((self.usrp_rate/self.samp_rate)*self.rs_ratio))
-        self.mmse_resampler_xx_0_0.set_resamp_ratio(((self.usrp_rate/self.samp_rate)*self.rs_ratio))
-        self.mmse_resampler_xx_0_0_0.set_resamp_ratio(((self.usrp_rate/self.samp_rate)*self.rs_ratio))
-        self.mmse_resampler_xx_0_1.set_resamp_ratio(1.0/((self.usrp_rate/self.samp_rate)*self.rs_ratio))
+    def set_transmit_button(self, transmit_button):
+        self.transmit_button = transmit_button
+        self.blocks_selector_2.set_input_index(int(self.transmit_button))
 
     def get_thresh_0(self):
         return self.thresh_0
@@ -641,50 +666,22 @@ class QPSK_BPSK_toggle(gr.top_block, Qt.QWidget):
     def set_sps_0(self, sps_0):
         self.sps_0 = sps_0
 
-    def get_sdr_samp_rate_0(self):
-        return self.sdr_samp_rate_0
-
-    def set_sdr_samp_rate_0(self, sdr_samp_rate_0):
-        self.sdr_samp_rate_0 = sdr_samp_rate_0
-
     def get_sdr_samp_rate(self):
         return self.sdr_samp_rate
 
     def set_sdr_samp_rate(self, sdr_samp_rate):
         self.sdr_samp_rate = sdr_samp_rate
+        self.osmosdr_sink_0.set_sample_rate(self.sdr_samp_rate)
+        self.osmosdr_source_1.set_sample_rate(self.sdr_samp_rate)
+        self.qtgui_sink_x_0.set_frequency_range(0, self.sdr_samp_rate)
         self.qtgui_waterfall_sink_x_0.set_frequency_range(415300000, self.sdr_samp_rate)
-
-    def get_samp_rate_1(self):
-        return self.samp_rate_1
-
-    def set_samp_rate_1(self, samp_rate_1):
-        self.samp_rate_1 = samp_rate_1
-
-    def get_samp_rate_0_0(self):
-        return self.samp_rate_0_0
-
-    def set_samp_rate_0_0(self, samp_rate_0_0):
-        self.samp_rate_0_0 = samp_rate_0_0
-
-    def get_samp_rate_0(self):
-        return self.samp_rate_0
-
-    def set_samp_rate_0(self, samp_rate_0):
-        self.samp_rate_0 = samp_rate_0
-        self.osmosdr_sink_0.set_sample_rate(self.samp_rate_0)
-        self.osmosdr_source_1.set_sample_rate(self.samp_rate_0)
 
     def get_samp_rate(self):
         return self.samp_rate
 
     def set_samp_rate(self, samp_rate):
         self.samp_rate = samp_rate
-        self.mmse_resampler_xx_0.set_resamp_ratio(1.0/((self.usrp_rate/self.samp_rate)*self.rs_ratio))
-        self.mmse_resampler_xx_0_0.set_resamp_ratio(((self.usrp_rate/self.samp_rate)*self.rs_ratio))
-        self.mmse_resampler_xx_0_0_0.set_resamp_ratio(((self.usrp_rate/self.samp_rate)*self.rs_ratio))
-        self.mmse_resampler_xx_0_1.set_resamp_ratio(1.0/((self.usrp_rate/self.samp_rate)*self.rs_ratio))
         self.qtgui_freq_sink_x_0.set_frequency_range(0, self.samp_rate)
-        self.qtgui_sink_x_0.set_frequency_range(0, self.samp_rate)
 
     def get_rs_ratio_0(self):
         return self.rs_ratio_0
@@ -697,10 +694,6 @@ class QPSK_BPSK_toggle(gr.top_block, Qt.QWidget):
 
     def set_rs_ratio(self, rs_ratio):
         self.rs_ratio = rs_ratio
-        self.mmse_resampler_xx_0.set_resamp_ratio(1.0/((self.usrp_rate/self.samp_rate)*self.rs_ratio))
-        self.mmse_resampler_xx_0_0.set_resamp_ratio(((self.usrp_rate/self.samp_rate)*self.rs_ratio))
-        self.mmse_resampler_xx_0_0_0.set_resamp_ratio(((self.usrp_rate/self.samp_rate)*self.rs_ratio))
-        self.mmse_resampler_xx_0_1.set_resamp_ratio(1.0/((self.usrp_rate/self.samp_rate)*self.rs_ratio))
 
     def get_rrc_taps(self):
         return self.rrc_taps
@@ -761,8 +754,8 @@ class QPSK_BPSK_toggle(gr.top_block, Qt.QWidget):
 
     def set_freq_slider(self, freq_slider):
         self.freq_slider = freq_slider
-        self.osmosdr_sink_0.set_center_freq(self.TRXfrequency+self.freq_slider, 0)
-        self.osmosdr_source_1.set_center_freq(self.TRXfrequency+self.freq_slider, 0)
+        self.osmosdr_sink_0.set_center_freq((self.TXfrequency+self.freq_slider), 0)
+        self.osmosdr_source_1.set_center_freq((self.RXfrequency+self.freq_slider), 0)
 
     def get_excess_bw_0(self):
         return self.excess_bw_0
@@ -782,6 +775,14 @@ class QPSK_BPSK_toggle(gr.top_block, Qt.QWidget):
     def set_access_key_0(self, access_key_0):
         self.access_key_0 = access_key_0
 
+    def get_TXfrequency(self):
+        return self.TXfrequency
+
+    def set_TXfrequency(self, TXfrequency):
+        self.TXfrequency = TXfrequency
+        Qt.QMetaObject.invokeMethod(self._TXfrequency_line_edit, "setText", Qt.Q_ARG("QString", str(self.TXfrequency)))
+        self.osmosdr_sink_0.set_center_freq((self.TXfrequency+self.freq_slider), 0)
+
     def get_TX_rf_gain(self):
         return self.TX_rf_gain
 
@@ -789,14 +790,13 @@ class QPSK_BPSK_toggle(gr.top_block, Qt.QWidget):
         self.TX_rf_gain = TX_rf_gain
         self.osmosdr_sink_0.set_gain(self.TX_rf_gain, 0)
 
-    def get_TRXfrequency(self):
-        return self.TRXfrequency
+    def get_RXfrequency(self):
+        return self.RXfrequency
 
-    def set_TRXfrequency(self, TRXfrequency):
-        self.TRXfrequency = TRXfrequency
-        Qt.QMetaObject.invokeMethod(self._TRXfrequency_line_edit, "setText", Qt.Q_ARG("QString", str(self.TRXfrequency)))
-        self.osmosdr_sink_0.set_center_freq(self.TRXfrequency+self.freq_slider, 0)
-        self.osmosdr_source_1.set_center_freq(self.TRXfrequency+self.freq_slider, 0)
+    def set_RXfrequency(self, RXfrequency):
+        self.RXfrequency = RXfrequency
+        Qt.QMetaObject.invokeMethod(self._RXfrequency_line_edit, "setText", Qt.Q_ARG("QString", str(self.RXfrequency)))
+        self.osmosdr_source_1.set_center_freq((self.RXfrequency+self.freq_slider), 0)
 
     def get_RX_rf_gain(self):
         return self.RX_rf_gain

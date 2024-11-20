@@ -54,7 +54,7 @@ blocks:
     coordinate: [1672, 12.0]
     rotation: 0
     state: enabled
-- name: TRXfrequency
+- name: RXfrequency
   id: variable_qtgui_entry
   parameters:
     comment: ''
@@ -66,7 +66,7 @@ blocks:
     bus_sink: false
     bus_source: false
     bus_structure: null
-    coordinate: [296, 20.0]
+    coordinate: [456, 20.0]
     rotation: 0
     state: true
 - name: TX_rf_gain
@@ -88,6 +88,21 @@ blocks:
     bus_source: false
     bus_structure: null
     coordinate: [1552, 12.0]
+    rotation: 0
+    state: true
+- name: TXfrequency
+  id: variable_qtgui_entry
+  parameters:
+    comment: ''
+    gui_hint: ''
+    label: ''
+    type: int
+    value: '415400000'
+  states:
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate: [296, 20.0]
     rotation: 0
     state: true
 - name: access_key
@@ -345,48 +360,12 @@ blocks:
   id: variable
   parameters:
     comment: ''
-    value: '384000'
-  states:
-    bus_sink: false
-    bus_source: false
-    bus_structure: null
-    coordinate: [1040, 20.0]
-    rotation: 0
-    state: enabled
-- name: samp_rate_0
-  id: variable
-  parameters:
-    comment: ''
-    value: '768000'
-  states:
-    bus_sink: false
-    bus_source: false
-    bus_structure: null
-    coordinate: [1952, 36.0]
-    rotation: 0
-    state: enabled
-- name: samp_rate_0_0
-  id: variable
-  parameters:
-    comment: ''
     value: '576000'
   states:
     bus_sink: false
     bus_source: false
     bus_structure: null
-    coordinate: [1448, 220.0]
-    rotation: 0
-    state: enabled
-- name: samp_rate_1
-  id: variable
-  parameters:
-    comment: ''
-    value: '48000'
-  states:
-    bus_sink: false
-    bus_source: false
-    bus_structure: null
-    coordinate: [976, 220.0]
+    coordinate: [1024, 20.0]
     rotation: 0
     state: enabled
 - name: sdr_samp_rate
@@ -398,19 +377,7 @@ blocks:
     bus_sink: false
     bus_source: false
     bus_structure: null
-    coordinate: [1240, 84.0]
-    rotation: 0
-    state: enabled
-- name: sdr_samp_rate_0
-  id: variable
-  parameters:
-    comment: ''
-    value: '576000'
-  states:
-    bus_sink: false
-    bus_source: false
-    bus_structure: null
-    coordinate: [1176, 284.0]
+    coordinate: [904, 12.0]
     rotation: 0
     state: enabled
 - name: sps
@@ -485,40 +452,27 @@ blocks:
     coordinate: [1712, 244.0]
     rotation: 0
     state: enabled
-- name: usrp_rate
-  id: variable
+- name: transmit_button
+  id: variable_qtgui_toggle_button_msg
   parameters:
     comment: ''
-    value: '576000'
+    gui_hint: ''
+    initPressed: 'False'
+    label: TX
+    outputmsgname: value
+    pressBackgroundColor: red
+    pressFontColor: default
+    pressed: '1'
+    relBackgroundColor: default
+    relFontColor: default
+    released: '0'
+    type: int
+    value: '0'
   states:
     bus_sink: false
     bus_source: false
     bus_structure: null
-    coordinate: [1040, 84.0]
-    rotation: 0
-    state: true
-- name: usrp_rate_0
-  id: variable
-  parameters:
-    comment: ''
-    value: '576000'
-  states:
-    bus_sink: false
-    bus_source: false
-    bus_structure: null
-    coordinate: [2392, 4.0]
-    rotation: 0
-    state: true
-- name: usrp_rate_0_0
-  id: variable
-  parameters:
-    comment: ''
-    value: '768000'
-  states:
-    bus_sink: false
-    bus_source: false
-    bus_structure: null
-    coordinate: [1608, 244.0]
+    coordinate: [5048, 2316.0]
     rotation: 0
     state: true
 - name: usrp_rate_1
@@ -532,7 +486,7 @@ blocks:
     bus_structure: null
     coordinate: [976, 284.0]
     rotation: 0
-    state: true
+    state: enabled
 - name: variable_adaptive_algorithm_0
   id: variable_adaptive_algorithm
   parameters:
@@ -567,6 +521,29 @@ blocks:
     coordinate: [1712, 1132.0]
     rotation: 0
     state: true
+- name: variable_qtgui_toggle_button_msg_0
+  id: variable_qtgui_toggle_button_msg
+  parameters:
+    comment: ''
+    gui_hint: ''
+    initPressed: 'False'
+    label: ''
+    outputmsgname: value
+    pressBackgroundColor: default
+    pressFontColor: default
+    pressed: '1'
+    relBackgroundColor: default
+    relFontColor: default
+    released: '0'
+    type: int
+    value: '0'
+  states:
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate: [1864, 832.0]
+    rotation: 0
+    state: true
 - name: blocks_file_sink_0
   id: blocks_file_sink
   parameters:
@@ -574,7 +551,7 @@ blocks:
     alias: ''
     append: 'True'
     comment: ''
-    file: /home/ccc_gs/Scaricati/c3/qpsk/rx_data.bin
+    file: /home/art3m1sf0wl/program/TRX_test/c3/LRPT_working/rx_data.bin
     type: byte
     unbuffered: 'False'
     vlen: '1'
@@ -592,7 +569,7 @@ blocks:
     alias: ''
     append: 'True'
     comment: ''
-    file: /home/ccc_gs/Scaricati/c3/test_out.txt
+    file: /home/art3m1sf0wl/program/TRX_test/c3/test_out.txt
     type: byte
     unbuffered: 'False'
     vlen: '1'
@@ -610,7 +587,7 @@ blocks:
     alias: ''
     begin_tag: pmt.PMT_NIL
     comment: ''
-    file: /home/ccc_gs/Scaricati/c3/qpsk/tx_data.bin
+    file: /home/art3m1sf0wl/program/TRX_test/c3/LRPT_working/tx_data.bin
     length: '0'
     maxoutbuf: '0'
     minoutbuf: '0'
@@ -632,7 +609,7 @@ blocks:
     alias: ''
     begin_tag: pmt.PMT_NIL
     comment: ''
-    file: /home/ccc_gs/Scaricati/c3/test.txt
+    file: /home/art3m1sf0wl/program/TRX_test/c3/test.txt
     length: '0'
     maxoutbuf: '0'
     minoutbuf: '0'
@@ -681,6 +658,25 @@ blocks:
     bus_source: false
     bus_structure: null
     coordinate: [3872, 2604.0]
+    rotation: 0
+    state: true
+- name: blocks_null_source_0
+  id: blocks_null_source
+  parameters:
+    affinity: ''
+    alias: ''
+    bus_structure_source: '[[0,],]'
+    comment: ''
+    maxoutbuf: '0'
+    minoutbuf: '0'
+    num_outputs: '1'
+    type: complex
+    vlen: '1'
+  states:
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate: [4920, 1976.0]
     rotation: 0
     state: true
 - name: blocks_pack_k_bits_bb_0
@@ -739,7 +735,7 @@ blocks:
     bus_sink: false
     bus_source: false
     bus_structure: null
-    coordinate: [5112, 2220.0]
+    coordinate: [4760, 2188.0]
     rotation: 0
     state: true
 - name: blocks_selector_1
@@ -763,6 +759,29 @@ blocks:
     bus_source: false
     bus_structure: null
     coordinate: [656, 628.0]
+    rotation: 0
+    state: true
+- name: blocks_selector_2
+  id: blocks_selector
+  parameters:
+    affinity: ''
+    alias: ''
+    comment: ''
+    enabled: 'True'
+    input_index: int(transmit_button)
+    maxoutbuf: '0'
+    minoutbuf: '0'
+    num_inputs: '2'
+    num_outputs: '1'
+    output_index: '0'
+    showports: 'True'
+    type: complex
+    vlen: '1'
+  states:
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate: [5056, 2188.0]
     rotation: 0
     state: true
 - name: blocks_stream_to_tagged_stream_0
@@ -1354,78 +1373,6 @@ blocks:
     coordinate: [1736, 596.0]
     rotation: 0
     state: enabled
-- name: mmse_resampler_xx_0
-  id: mmse_resampler_xx
-  parameters:
-    affinity: ''
-    alias: ''
-    comment: ''
-    maxoutbuf: '0'
-    minoutbuf: '0'
-    phase_shift: '0'
-    resamp_ratio: 1.0/((usrp_rate/samp_rate)*rs_ratio)
-    type: complex
-  states:
-    bus_sink: false
-    bus_source: false
-    bus_structure: null
-    coordinate: [4080, 1744.0]
-    rotation: 0
-    state: true
-- name: mmse_resampler_xx_0_0
-  id: mmse_resampler_xx
-  parameters:
-    affinity: ''
-    alias: ''
-    comment: ''
-    maxoutbuf: '0'
-    minoutbuf: '0'
-    phase_shift: '0'
-    resamp_ratio: ((usrp_rate/samp_rate)*rs_ratio)
-    type: complex
-  states:
-    bus_sink: false
-    bus_source: false
-    bus_structure: null
-    coordinate: [1656, 448.0]
-    rotation: 0
-    state: true
-- name: mmse_resampler_xx_0_0_0
-  id: mmse_resampler_xx
-  parameters:
-    affinity: ''
-    alias: ''
-    comment: ''
-    maxoutbuf: '0'
-    minoutbuf: '0'
-    phase_shift: '0'
-    resamp_ratio: ((usrp_rate/samp_rate)*rs_ratio)
-    type: complex
-  states:
-    bus_sink: false
-    bus_source: false
-    bus_structure: null
-    coordinate: [1736, 1256.0]
-    rotation: 0
-    state: true
-- name: mmse_resampler_xx_0_1
-  id: mmse_resampler_xx
-  parameters:
-    affinity: ''
-    alias: ''
-    comment: ''
-    maxoutbuf: '0'
-    minoutbuf: '0'
-    phase_shift: '0'
-    resamp_ratio: 1.0/((usrp_rate/samp_rate)*rs_ratio)
-    type: complex
-  states:
-    bus_sink: false
-    bus_source: false
-    bus_structure: null
-    coordinate: [4208, 2576.0]
-    rotation: 0
-    state: true
 - name: note_0
   id: note
   parameters:
@@ -1469,7 +1416,7 @@ blocks:
   parameters:
     affinity: ''
     alias: ''
-    ant0: ''
+    ant0: TX1
     ant1: ''
     ant10: ''
     ant11: ''
@@ -1607,7 +1554,7 @@ blocks:
     corr7: '0'
     corr8: '0'
     corr9: '0'
-    freq0: TRXfrequency+freq_slider
+    freq0: TXfrequency+freq_slider
     freq1: 100e6
     freq10: 100e6
     freq11: 100e6
@@ -1707,7 +1654,7 @@ blocks:
     minoutbuf: '0'
     nchan: '1'
     num_mboards: '1'
-    sample_rate: samp_rate_0
+    sample_rate: sdr_samp_rate
     sync: sync
     time_source0: ''
     time_source1: ''
@@ -1730,7 +1677,7 @@ blocks:
   parameters:
     affinity: ''
     alias: ''
-    ant0: ''
+    ant0: RX1
     ant1: ''
     ant10: ''
     ant11: ''
@@ -1900,7 +1847,7 @@ blocks:
     dc_offset_mode7: '0'
     dc_offset_mode8: '0'
     dc_offset_mode9: '0'
-    freq0: TRXfrequency+freq_slider
+    freq0: RXfrequency+freq_slider
     freq1: 100e6
     freq10: 100e6
     freq11: 100e6
@@ -2064,7 +2011,7 @@ blocks:
     minoutbuf: '0'
     nchan: '1'
     num_mboards: '1'
-    sample_rate: samp_rate_0
+    sample_rate: sdr_samp_rate
     sync: sync
     time_source0: ''
     time_source1: ''
@@ -2996,7 +2943,7 @@ blocks:
   parameters:
     affinity: ''
     alias: ''
-    bw: samp_rate
+    bw: sdr_samp_rate
     comment: ''
     fc: '0'
     fftsize: '1024'
@@ -3275,6 +3222,86 @@ blocks:
     coordinate: [696, 404.0]
     rotation: 0
     state: enabled
+- name: rational_resampler_xxx_0
+  id: rational_resampler_xxx
+  parameters:
+    affinity: ''
+    alias: ''
+    comment: ''
+    decim: '1'
+    fbw: '0'
+    interp: '1'
+    maxoutbuf: '0'
+    minoutbuf: '0'
+    taps: '[]'
+    type: ccc
+  states:
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate: [4296, 2596.0]
+    rotation: 0
+    state: true
+- name: rational_resampler_xxx_0_0
+  id: rational_resampler_xxx
+  parameters:
+    affinity: ''
+    alias: ''
+    comment: ''
+    decim: '1'
+    fbw: '0'
+    interp: '1'
+    maxoutbuf: '0'
+    minoutbuf: '0'
+    taps: '[]'
+    type: ccc
+  states:
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate: [1720, 444.0]
+    rotation: 0
+    state: true
+- name: rational_resampler_xxx_0_1
+  id: rational_resampler_xxx
+  parameters:
+    affinity: ''
+    alias: ''
+    comment: ''
+    decim: '1'
+    fbw: '0'
+    interp: '1'
+    maxoutbuf: '0'
+    minoutbuf: '0'
+    taps: '[]'
+    type: ccc
+  states:
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate: [1728, 1268.0]
+    rotation: 0
+    state: true
+- name: rational_resampler_xxx_0_2
+  id: rational_resampler_xxx
+  parameters:
+    affinity: ''
+    alias: ''
+    comment: ''
+    decim: '1'
+    fbw: '0'
+    interp: '1'
+    maxoutbuf: '0'
+    minoutbuf: '0'
+    taps: '[]'
+    type: ccc
+  states:
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate: [4080, 1852.0]
+    rotation: 0
+    state: true
 - name: virtual_sink_0
   id: virtual_sink
   parameters:
@@ -3438,6 +3465,7 @@ blocks:
     affinity: ''
     alias: ''
     comment: USRP sample rate = 768kHz
+    drop_on_hwm: 'True'
     hwm: '-1'
     key: ''
     pass_tags: 'False'
@@ -3479,18 +3507,20 @@ connections:
 - [blocks_file_source_0, '0', blocks_throttle_0_1, '0']
 - [blocks_file_source_0_0, '0', blocks_stream_to_tagged_stream_0_0, '0']
 - [blocks_file_source_0_0, '0', blocks_throttle_0_1_0, '0']
-- [blocks_multiply_const_vxx_0, '0', mmse_resampler_xx_0, '0']
 - [blocks_multiply_const_vxx_0, '0', qtgui_time_sink_x_0, '0']
-- [blocks_multiply_const_vxx_0_0, '0', mmse_resampler_xx_0_1, '0']
+- [blocks_multiply_const_vxx_0, '0', rational_resampler_xxx_0_2, '0']
 - [blocks_multiply_const_vxx_0_0, '0', qtgui_time_sink_x_0_1, '0']
+- [blocks_multiply_const_vxx_0_0, '0', rational_resampler_xxx_0, '0']
+- [blocks_null_source_0, '0', blocks_selector_2, '0']
 - [blocks_pack_k_bits_bb_0, '0', blocks_file_sink_0, '0']
 - [blocks_repack_bits_bb_1, '0', digital_crc32_bb_0_0, '0']
-- [blocks_selector_0, '0', osmosdr_sink_0, '0']
-- [blocks_selector_0, '0', qtgui_const_sink_x_0_0, '0']
-- [blocks_selector_0, '0', qtgui_freq_sink_x_0, '0']
-- [blocks_selector_0, '0', zeromq_pub_sink_0, '0']
-- [blocks_selector_1, '0', mmse_resampler_xx_0_0, '0']
-- [blocks_selector_1, '1', mmse_resampler_xx_0_0_0, '0']
+- [blocks_selector_0, '0', blocks_selector_2, '1']
+- [blocks_selector_1, '0', rational_resampler_xxx_0_0, '0']
+- [blocks_selector_1, '1', rational_resampler_xxx_0_1, '0']
+- [blocks_selector_2, '0', osmosdr_sink_0, '0']
+- [blocks_selector_2, '0', qtgui_const_sink_x_0_0, '0']
+- [blocks_selector_2, '0', qtgui_freq_sink_x_0, '0']
+- [blocks_selector_2, '0', zeromq_pub_sink_0, '0']
 - [blocks_stream_to_tagged_stream_0, '0', digital_constellation_modulator_0, '0']
 - [blocks_stream_to_tagged_stream_0, '0', digital_crc32_bb_0, '0']
 - [blocks_stream_to_tagged_stream_0_0, '0', digital_crc32_bb_0_1, '0']
@@ -3531,17 +3561,13 @@ connections:
 - [digital_symbol_sync_xx_0, '0', qtgui_const_sink_x_0_0_0_0_1, '0']
 - [digital_symbol_sync_xx_0_0, '0', digital_linear_equalizer_0, '0']
 - [digital_symbol_sync_xx_0_0, '0', qtgui_const_sink_x_0_0_0_0, '0']
-- [mmse_resampler_xx_0, '0', blocks_selector_0, '0']
-- [mmse_resampler_xx_0_0, '0', blocks_throttle_0_0, '0']
-- [mmse_resampler_xx_0_0, '0', qtgui_const_sink_x_0_0_0, '0']
-- [mmse_resampler_xx_0_0, '0', virtual_sink_0_0, '0']
-- [mmse_resampler_xx_0_0_0, '0', blocks_throttle_0_0_0, '0']
-- [mmse_resampler_xx_0_0_0, '0', qtgui_const_sink_x_0_0_0_1, '0']
-- [mmse_resampler_xx_0_0_0, '0', virtual_sink_0_0_0, '0']
-- [mmse_resampler_xx_0_1, '0', blocks_selector_0, '1']
 - [osmosdr_source_1, '0', blocks_selector_1, '0']
 - [osmosdr_source_1, '0', qtgui_sink_x_0, '0']
 - [osmosdr_source_1, '0', qtgui_waterfall_sink_x_0, '0']
+- [rational_resampler_xxx_0, '0', blocks_selector_0, '1']
+- [rational_resampler_xxx_0_0, '0', virtual_sink_0_0, '0']
+- [rational_resampler_xxx_0_1, '0', virtual_sink_0_0_0, '0']
+- [rational_resampler_xxx_0_2, '0', blocks_selector_0, '0']
 - [virtual_source_0, '0', blocks_multiply_const_vxx_0, '0']
 - [virtual_source_0, '0', blocks_throttle_0, '0']
 - [virtual_source_0_0, '0', digital_symbol_sync_xx_0_0, '0']
@@ -3556,3 +3582,4 @@ connections:
 
 metadata:
   file_format: 1
+  grc_version: 3.10.5.1
