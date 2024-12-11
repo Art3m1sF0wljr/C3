@@ -88,7 +88,6 @@ class QPSK_BPSK_toggle(gr.top_block, Qt.QWidget):
         self.nfilts = nfilts = 32
         self.bpsk = bpsk = digital.constellation_bpsk().base()
         self.access_key = access_key = '11100001010110101110100010010011'
-        self.variable_qtgui_toggle_button_msg_0 = variable_qtgui_toggle_button_msg_0 = 0
         self.variable_adaptive_algorithm_0_0 = variable_adaptive_algorithm_0_0 = digital.adaptive_algorithm_cma( bpsk, .0001, sps).base()
         self.variable_adaptive_algorithm_0 = variable_adaptive_algorithm_0 = digital.adaptive_algorithm_cma( qpsk, .0001, sps).base()
         self.usrp_rate_1 = usrp_rate_1 = 768000
@@ -161,13 +160,6 @@ class QPSK_BPSK_toggle(gr.top_block, Qt.QWidget):
         self._RX_rf_gain_range = Range(0, 50, 1, 40, 200)
         self._RX_rf_gain_win = RangeWidget(self._RX_rf_gain_range, self.set_RX_rf_gain, "'RX_rf_gain'", "counter_slider", float, QtCore.Qt.Horizontal)
         self.top_layout.addWidget(self._RX_rf_gain_win)
-        self._variable_qtgui_toggle_button_msg_0_choices = {'Pressed': 1, 'Released': 0}
-
-        _variable_qtgui_toggle_button_msg_0_toggle_button = qtgui.ToggleButton(self.set_variable_qtgui_toggle_button_msg_0, 'variable_qtgui_toggle_button_msg_0', self._variable_qtgui_toggle_button_msg_0_choices, False, 'value')
-        _variable_qtgui_toggle_button_msg_0_toggle_button.setColors("default", "default", "default", "default")
-        self.variable_qtgui_toggle_button_msg_0 = _variable_qtgui_toggle_button_msg_0_toggle_button
-
-        self.top_layout.addWidget(_variable_qtgui_toggle_button_msg_0_toggle_button)
         self.rational_resampler_xxx_0_2 = filter.rational_resampler_ccc(
                 interpolation=1,
                 decimation=1,
@@ -241,48 +233,6 @@ class QPSK_BPSK_toggle(gr.top_block, Qt.QWidget):
         self.qtgui_sink_x_0.enable_rf_freq(False)
 
         self.top_layout.addWidget(self._qtgui_sink_x_0_win)
-        self.qtgui_freq_sink_x_0 = qtgui.freq_sink_c(
-            1024, #size
-            window.WIN_BLACKMAN_hARRIS, #wintype
-            0, #fc
-            samp_rate, #bw
-            "Mod Out QPSK", #name
-            1,
-            None # parent
-        )
-        self.qtgui_freq_sink_x_0.set_update_time(0.10)
-        self.qtgui_freq_sink_x_0.set_y_axis((-140), 10)
-        self.qtgui_freq_sink_x_0.set_y_label('Relative Gain', 'dB')
-        self.qtgui_freq_sink_x_0.set_trigger_mode(qtgui.TRIG_MODE_FREE, 0.0, 0, "")
-        self.qtgui_freq_sink_x_0.enable_autoscale(False)
-        self.qtgui_freq_sink_x_0.enable_grid(False)
-        self.qtgui_freq_sink_x_0.set_fft_average(1.0)
-        self.qtgui_freq_sink_x_0.enable_axis_labels(True)
-        self.qtgui_freq_sink_x_0.enable_control_panel(False)
-        self.qtgui_freq_sink_x_0.set_fft_window_normalized(False)
-
-
-
-        labels = ['', '', '', '', '',
-            '', '', '', '', '']
-        widths = [1, 1, 1, 1, 1,
-            1, 1, 1, 1, 1]
-        colors = ["blue", "red", "green", "black", "cyan",
-            "magenta", "yellow", "dark red", "dark green", "dark blue"]
-        alphas = [1.0, 1.0, 1.0, 1.0, 1.0,
-            1.0, 1.0, 1.0, 1.0, 1.0]
-
-        for i in range(1):
-            if len(labels[i]) == 0:
-                self.qtgui_freq_sink_x_0.set_line_label(i, "Data {0}".format(i))
-            else:
-                self.qtgui_freq_sink_x_0.set_line_label(i, labels[i])
-            self.qtgui_freq_sink_x_0.set_line_width(i, widths[i])
-            self.qtgui_freq_sink_x_0.set_line_color(i, colors[i])
-            self.qtgui_freq_sink_x_0.set_line_alpha(i, alphas[i])
-
-        self._qtgui_freq_sink_x_0_win = sip.wrapinstance(self.qtgui_freq_sink_x_0.qwidget(), Qt.QWidget)
-        self.top_layout.addWidget(self._qtgui_freq_sink_x_0_win)
         self.qtgui_const_sink_x_0_0_0_0_0_0 = qtgui.const_sink_c(
             1024, #size
             "4_uscente da lin equalizer", #name
@@ -365,47 +315,6 @@ class QPSK_BPSK_toggle(gr.top_block, Qt.QWidget):
 
         self._qtgui_const_sink_x_0_0_0_0_0_win = sip.wrapinstance(self.qtgui_const_sink_x_0_0_0_0_0.qwidget(), Qt.QWidget)
         self.top_layout.addWidget(self._qtgui_const_sink_x_0_0_0_0_0_win)
-        self.qtgui_const_sink_x_0_0 = qtgui.const_sink_c(
-            1024, #size
-            "1_source", #name
-            1, #number of inputs
-            None # parent
-        )
-        self.qtgui_const_sink_x_0_0.set_update_time(0.10)
-        self.qtgui_const_sink_x_0_0.set_y_axis((-1), 1)
-        self.qtgui_const_sink_x_0_0.set_x_axis((-2), 2)
-        self.qtgui_const_sink_x_0_0.set_trigger_mode(qtgui.TRIG_MODE_FREE, qtgui.TRIG_SLOPE_POS, 0.0, 0, "")
-        self.qtgui_const_sink_x_0_0.enable_autoscale(True)
-        self.qtgui_const_sink_x_0_0.enable_grid(False)
-        self.qtgui_const_sink_x_0_0.enable_axis_labels(True)
-
-
-        labels = ['', '', '', '', '',
-            '', '', '', '', '']
-        widths = [1, 1, 1, 1, 1,
-            1, 1, 1, 1, 1]
-        colors = ["blue", "red", "red", "red", "red",
-            "red", "red", "red", "red", "red"]
-        styles = [0, 0, 0, 0, 0,
-            0, 0, 0, 0, 0]
-        markers = [0, 0, 0, 0, 0,
-            0, 0, 0, 0, 0]
-        alphas = [1.0, 1.0, 1.0, 1.0, 1.0,
-            1.0, 1.0, 1.0, 1.0, 1.0]
-
-        for i in range(1):
-            if len(labels[i]) == 0:
-                self.qtgui_const_sink_x_0_0.set_line_label(i, "Data {0}".format(i))
-            else:
-                self.qtgui_const_sink_x_0_0.set_line_label(i, labels[i])
-            self.qtgui_const_sink_x_0_0.set_line_width(i, widths[i])
-            self.qtgui_const_sink_x_0_0.set_line_color(i, colors[i])
-            self.qtgui_const_sink_x_0_0.set_line_style(i, styles[i])
-            self.qtgui_const_sink_x_0_0.set_line_marker(i, markers[i])
-            self.qtgui_const_sink_x_0_0.set_line_alpha(i, alphas[i])
-
-        self._qtgui_const_sink_x_0_0_win = sip.wrapinstance(self.qtgui_const_sink_x_0_0.qwidget(), Qt.QWidget)
-        self.top_layout.addWidget(self._qtgui_const_sink_x_0_0_win)
         self.osmosdr_source_1 = osmosdr.source(
             args="numchan=" + str(1) + " " + "bladerf=0,nchan=1,buffers=48,transfers=24,agc_mode=manual"
         )
@@ -526,8 +435,6 @@ class QPSK_BPSK_toggle(gr.top_block, Qt.QWidget):
         self.connect((self.blocks_multiply_const_vxx_0, 0), (self.rational_resampler_xxx_0_2, 0))
         self.connect((self.blocks_multiply_const_vxx_0_0, 0), (self.rational_resampler_xxx_0, 0))
         self.connect((self.blocks_multiply_xx_0, 0), (self.osmosdr_sink_0, 0))
-        self.connect((self.blocks_multiply_xx_0, 0), (self.qtgui_const_sink_x_0_0, 0))
-        self.connect((self.blocks_multiply_xx_0, 0), (self.qtgui_freq_sink_x_0, 0))
         self.connect((self.blocks_null_source_0, 0), (self.blocks_selector_2, 0))
         self.connect((self.blocks_pack_k_bits_bb_0, 0), (self.blocks_file_sink_0, 0))
         self.connect((self.blocks_repack_bits_bb_1, 0), (self.digital_crc32_bb_0_0, 0))
@@ -611,12 +518,6 @@ class QPSK_BPSK_toggle(gr.top_block, Qt.QWidget):
         self.set_hdr_format(digital.header_format_default(self.access_key, 0))
         self.set_hdr_format_0(digital.header_format_default(self.access_key, 0))
 
-    def get_variable_qtgui_toggle_button_msg_0(self):
-        return self.variable_qtgui_toggle_button_msg_0
-
-    def set_variable_qtgui_toggle_button_msg_0(self, variable_qtgui_toggle_button_msg_0):
-        self.variable_qtgui_toggle_button_msg_0 = variable_qtgui_toggle_button_msg_0
-
     def get_variable_adaptive_algorithm_0_0(self):
         return self.variable_adaptive_algorithm_0_0
 
@@ -688,7 +589,6 @@ class QPSK_BPSK_toggle(gr.top_block, Qt.QWidget):
     def set_samp_rate(self, samp_rate):
         self.samp_rate = samp_rate
         self.analog_sig_source_x_0.set_sampling_freq(self.samp_rate)
-        self.qtgui_freq_sink_x_0.set_frequency_range(0, self.samp_rate)
 
     def get_rs_ratio_0(self):
         return self.rs_ratio_0
@@ -770,6 +670,7 @@ class QPSK_BPSK_toggle(gr.top_block, Qt.QWidget):
     def set_freq_slider(self, freq_slider):
         self.freq_slider = freq_slider
         self.osmosdr_sink_0.set_center_freq((self.TXfrequency+self.freq_slider-self.offset_freq), 0)
+        self.osmosdr_sink_0.set_center_freq((self.TXfrequency+self.freq_slider), 1)
         self.osmosdr_source_1.set_center_freq((self.RXfrequency+self.freq_slider), 0)
 
     def get_excess_bw_0(self):
@@ -797,6 +698,7 @@ class QPSK_BPSK_toggle(gr.top_block, Qt.QWidget):
         self.TXfrequency = TXfrequency
         Qt.QMetaObject.invokeMethod(self._TXfrequency_line_edit, "setText", Qt.Q_ARG("QString", str(self.TXfrequency)))
         self.osmosdr_sink_0.set_center_freq((self.TXfrequency+self.freq_slider-self.offset_freq), 0)
+        self.osmosdr_sink_0.set_center_freq((self.TXfrequency+self.freq_slider), 1)
 
     def get_TX_rf_gain(self):
         return self.TX_rf_gain
@@ -804,6 +706,7 @@ class QPSK_BPSK_toggle(gr.top_block, Qt.QWidget):
     def set_TX_rf_gain(self, TX_rf_gain):
         self.TX_rf_gain = TX_rf_gain
         self.osmosdr_sink_0.set_gain(self.TX_rf_gain, 0)
+        self.osmosdr_sink_0.set_gain(self.TX_rf_gain, 1)
 
     def get_RXfrequency(self):
         return self.RXfrequency
