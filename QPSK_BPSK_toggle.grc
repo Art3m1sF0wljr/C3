@@ -61,7 +61,7 @@ blocks:
     gui_hint: ''
     label: ''
     type: int
-    value: '415400000'
+    value: '145400000'
   states:
     bus_sink: false
     bus_source: false
@@ -97,7 +97,7 @@ blocks:
     gui_hint: ''
     label: ''
     type: int
-    value: '415400000'
+    value: '145400000'
   states:
     bus_sink: false
     bus_source: false
@@ -479,7 +479,7 @@ blocks:
     relFontColor: default
     released: '0'
     type: int
-    value: '0'
+    value: '1'
   states:
     bus_sink: false
     bus_source: false
@@ -554,7 +554,7 @@ blocks:
     bus_structure: null
     coordinate: [2512, 2300.0]
     rotation: 0
-    state: true
+    state: enabled
 - name: analog_sig_source_x_0_0
   id: analog_sig_source_x
   parameters:
@@ -708,9 +708,9 @@ blocks:
     bus_sink: false
     bus_source: false
     bus_structure: null
-    coordinate: [2760, 2424.0]
+    coordinate: [2752, 2424.0]
     rotation: 0
-    state: true
+    state: enabled
 - name: blocks_multiply_xx_1
   id: blocks_multiply_xx
   parameters:
