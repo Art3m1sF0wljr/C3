@@ -35,6 +35,7 @@ from gnuradio import gr
 from gnuradio.fft import window
 import sys
 import signal
+import subprocess
 from argparse import ArgumentParser
 from gnuradio.eng_arg import eng_float, intx
 from gnuradio.qtgui import Range, RangeWidget
@@ -49,6 +50,10 @@ from gnuradio import qtgui
 class QPSK_BPSK_toggle(gr.top_block, Qt.QWidget):
 
     def __init__(self):
+        self.script_path = "txSynchronizer.py"
+        self.script_argsStart = ["1", "0"]  #start 1, vhf 0
+        self.script_argsStop = ["0", "0"]   #stop 0, vhf 0
+        
         gr.top_block.__init__(self, "QPSK_BPSK_toggle", catch_exceptions=True)
         Qt.QWidget.__init__(self)
         self.setWindowTitle("QPSK_BPSK_toggle")
@@ -91,7 +96,7 @@ class QPSK_BPSK_toggle(gr.top_block, Qt.QWidget):
         self.variable_adaptive_algorithm_0_0 = variable_adaptive_algorithm_0_0 = digital.adaptive_algorithm_cma( bpsk, .0001, sps).base()
         self.variable_adaptive_algorithm_0 = variable_adaptive_algorithm_0 = digital.adaptive_algorithm_cma( qpsk, .0001, sps).base()
         self.usrp_rate_1 = usrp_rate_1 = 768000
-        self.transmit_button = transmit_button = 0
+        self.transmit_button = transmit_button = 1
         self.thresh_0 = thresh_0 = 1
         self.thresh = thresh = 1
         self.sps_1 = sps_1 = 2
@@ -107,16 +112,16 @@ class QPSK_BPSK_toggle(gr.top_block, Qt.QWidget):
         self.order_0 = order_0 = 2
         self.order = order = 4
         self.offset_freq = offset_freq = 200000
-        self.modulation_toggle = modulation_toggle = 0
+        self.modulation_toggle = modulation_toggle = 1
         self.hdr_format_0 = hdr_format_0 = digital.header_format_default(access_key, 0)
         self.hdr_format = hdr_format = digital.header_format_default(access_key, 0)
         self.freq_slider = freq_slider = 0
         self.excess_bw_0 = excess_bw_0 = 0.35
         self.excess_bw = excess_bw = 0.35
         self.access_key_0 = access_key_0 = '11100001010110101110100010010011'
-        self.TXfrequency = TXfrequency = 415400000
+        self.TXfrequency = TXfrequency = 145400000
         self.TX_rf_gain = TX_rf_gain = 40
-        self.RXfrequency = RXfrequency = 415400000
+        self.RXfrequency = RXfrequency = 145400000
         self.RX_rf_gain = RX_rf_gain = 40
 
         ##################################################
@@ -183,7 +188,7 @@ class QPSK_BPSK_toggle(gr.top_block, Qt.QWidget):
         self.qtgui_waterfall_sink_x_0 = qtgui.waterfall_sink_c(
             1024, #size
             window.WIN_BLACKMAN_hARRIS, #wintype
-            415300000, #fc
+            RXfrequency, #fc
             sdr_samp_rate, #bw
             "RX Waterfall", #name
             1, #number of inputs
@@ -540,6 +545,10 @@ class QPSK_BPSK_toggle(gr.top_block, Qt.QWidget):
         return self.transmit_button
 
     def set_transmit_button(self, transmit_button):
+        if transmit_button:  # When toggled on
+            subprocess.Popen(['python3', self.script_path] + self.script_argsStart)
+        else:  # When toggled off (fixed syntax - use 'not' instead of '!')
+            subprocess.Popen(['python3', self.script_path] + self.script_argsStop)
         self.transmit_button = transmit_button
         self.blocks_selector_2.set_input_index(int(self.transmit_button))
 
@@ -581,7 +590,7 @@ class QPSK_BPSK_toggle(gr.top_block, Qt.QWidget):
         self.osmosdr_sink_0.set_sample_rate(self.sdr_samp_rate)
         self.osmosdr_source_1.set_sample_rate(self.sdr_samp_rate)
         self.qtgui_sink_x_0.set_frequency_range(0, self.sdr_samp_rate)
-        self.qtgui_waterfall_sink_x_0.set_frequency_range(415300000, self.sdr_samp_rate)
+        self.qtgui_waterfall_sink_x_0.set_frequency_range(self.RXfrequency, self.sdr_samp_rate)
 
     def get_samp_rate(self):
         return self.samp_rate
@@ -715,6 +724,7 @@ class QPSK_BPSK_toggle(gr.top_block, Qt.QWidget):
         self.RXfrequency = RXfrequency
         Qt.QMetaObject.invokeMethod(self._RXfrequency_line_edit, "setText", Qt.Q_ARG("QString", str(self.RXfrequency)))
         self.osmosdr_source_1.set_center_freq((self.RXfrequency+self.freq_slider), 0)
+        self.qtgui_waterfall_sink_x_0.set_frequency_range(self.RXfrequency, self.sdr_samp_rate)
 
     def get_RX_rf_gain(self):
         return self.RX_rf_gain
